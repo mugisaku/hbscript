@@ -56,12 +56,13 @@ operator()(Context&  ctx) const
 
                     if(!reference_sign)
                     {
-                      retval = retval.dereference(ctx.memory);
+                      auto  tmpval = retval.dereference(ctx.memory);
+
+                      retval = tmpval;
                     }
                 }
 
-
-              return retval;
+              return std::move(retval);
             }
             break;
         }

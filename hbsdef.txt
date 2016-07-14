@@ -1,0 +1,194 @@
+statement =
+                  debug|
+                    ";"|
+      control_statement|
+  declaration_statement|
+     (expression:[";"]);
+
+
+
+
+declaration_statement = 
+  function_declaration|
+       var_declaration|
+      enum_declaration;
+
+
+
+
+control_statement =
+        if_statement|
+    return_statement|
+     break_statement|
+  continue_statement|
+     label_statement|
+       for_statement;
+
+
+
+
+debug = "debug":"(":expression:")";
+
+
+enum_declaration = "enum":"{":enumerator:{",":enumerator}:"}";
+enumerator = identifier:["=":expression];
+
+
+
+
+break_statement    = "break":identifier:[";"];
+continue_statement = "continue":identifier:[";"];
+label_statement    = identifier:":":block;
+return_statement   = "return":[expression]:[";"];
+
+
+
+
+for_statement = "for":"(":[for_block_initializer]:";":[condition]:";":[step]:")";
+for_block_initializer = expression;
+condition             = expression;
+step                  = expression;
+
+
+
+
+if_statement = if_block:{elseif_block}:[else_block];
+
+if_block     = "if":"(":expression:")":block;
+elseif_block = "else":white_space:if_block;
+else_block   = "else":block;
+
+block = "{":{statement}:"}";
+
+
+
+
+expression = {binary_operand}:unary_operand:[";"];
+
+binary_operand = unary_operand:binary_operator;
+
+unary_operand = ({unary_operator}:operand)|({unary_operator}:"(":expression:")");
+
+operand =
+               "null"|
+               "true"|
+              "false"|
+          "undefined"|
+            accessing|
+              calling|
+           identifier|
+      integer_literal|
+    character_literal|
+       string_literal;
+
+
+accessing = identifier:"[":[expression                 ]:"]";
+calling   = identifier:"(":[expression:{",":expression}]:")";
+
+
+
+
+function_declaration = "function":[white_space:identifier]:function_definition;
+
+function_definition = ["&"]:"(":[parameter:{",":parameter}]:")":block;
+
+parameter = ["&"]:["const":white_space]:identifier;
+
+
+
+
+var_declaration = ["static":white_space]:"var":["&"]:white_space:["const":white_space]:identifier:["=":expression]:[";"];
+
+
+
+
+
+white_space = CTYPE_space:{CTYPE_space};
+
+
+integer_literal = hex_literal|binary_literal|decimal_literal;
+
+
+decimal_literal = "0"|natural_number;
+one_to_nine     = "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9";
+natural_number  = one_to_nine:{CTYPE_digit};
+hex_literal     = "0x":CTYPE_xdigit:{CTYPE_xdigit};
+binary_literal  = "0b":zero_or_one:{zero_or_one};
+zero_or_one     = "0"|"1";
+
+
+binary_operator =
+  "<<="|
+  "<<" |
+  "<=" |
+  "<"  |
+  ">>="|
+  ">>" |
+  ">=" |
+  ">"  |
+  "+=" |
+  "+"  |
+  "-=" |
+  "-"  |
+  "*=" |
+  "*"  |
+  "/=" |
+  "/"  |
+  "%=" |
+  "%"  |
+  "||" |
+  "|=" |
+  "|"  |
+  "&&" |
+  "&=" |
+  "&"  |
+  "==" |
+  "="  |
+  "^=" |
+  "^"  |
+  "!=" |
+  "->" |
+  "."  ;
+
+
+unary_operator =
+  "&"  |
+  "*"  |
+  "!"  |
+  "~"  |
+  "-"  ;
+
+
+
+
+identifier = ("_"|CTYPE_alpha):{"_"|CTYPE_alnum};
+
+
+
+
+character_literal = "\'": string_element :"\'";
+   string_literal = "\"":{string_element}:"\"";
+
+
+string_element =
+                         " "|
+                  CTYPE_utf8|
+              null_character|
+           newline_character|
+         backslash_character|
+      single_quote_character|
+      double_quote_character|
+            normal_character;
+
+
+normal_character = CTYPE_alnum|CTYPE_punct;
+
+null_character         = "\\0";
+newline_character      = "\\n";
+backslash_character    = "\\\\";
+single_quote_character = "\\\'";
+double_quote_character = "\\\"";
+
+
+
+

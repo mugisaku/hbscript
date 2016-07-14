@@ -1,0 +1,55 @@
+
+
+
+
+function
+test0(a)
+{
+debug(a);
+  *a += 100;
+}
+
+
+function
+test1(&a)
+{
+debug( a);
+debug(&a);
+  a += 1000;
+
+  test0(&a);
+}
+
+
+function
+test2 &(&a)
+{
+debug( a);
+debug(&a);
+  return a;
+}
+
+
+function
+main()
+{
+  var  x=1+2*3+4;
+
+debug(x);
+  test0(&x);
+  test0(&x);
+debug(x);
+  test1( x);
+  test1( x);
+debug(x);
+  test2( x) += 10000;
+  test2( x) += 10000;
+debug(x);
+
+  return x;
+}
+
+
+
+
+

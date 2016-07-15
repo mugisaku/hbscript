@@ -15,6 +15,9 @@
 
 
 struct Block;
+struct ConditionalBlock;
+struct LabeledBlock;
+struct IfStatement;
 
 
 enum class
@@ -31,8 +34,8 @@ StatementKind
   continue_,
   label_,
   return_,
-  if_,
-  for_,
+  ifstmt,
+  forstmt,
 
 };
 
@@ -71,6 +74,7 @@ Statement
     std::string*         id;
     Block*              blk;
     expression::Node*  expr;
+    IfStatement*     ifstmt;
 
   } data;
 
@@ -91,6 +95,7 @@ Statement
   void  reset(expression::Node*  expr);
   void  reset(VarDecl*  vardecl);
   void  reset(const Debug&  dbg);
+  void  reset(IfStatement*  ifstmt);
 
   void  print(const Memory&  mem) const;
 
@@ -108,6 +113,9 @@ Statement
 
   void  read_var_declaration(const mkf::Node&  base, Memory&  mem, int  depth);
 };
+
+
+using StatementList = std::vector<Statement>;
 
 
 

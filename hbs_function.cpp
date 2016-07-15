@@ -60,12 +60,6 @@ read(const mkf::Node&  src, Memory&  mem, int  depth)
     {
       auto&  nd = cur.get();
 
-        if(nd == "identifier")
-        {
-          nd.collect_characters(identifier);
-        }
-
-      else
         if(nd == "parameter")
         {
           read_parameter(nd);

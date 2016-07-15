@@ -7,13 +7,7 @@
 
 
 
-struct Scope;
-
-
 namespace expression{
-
-
-using ElementList = std::vector<Element>;
 
 
 struct

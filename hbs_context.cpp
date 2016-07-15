@@ -9,9 +9,9 @@
 
 
 Context::
-Context(Memory&  mem, const ObjectList&  gobj_list):
+Context(Memory&  mem, Block&  gblk):
 memory(mem),
-global_object_list(gobj_list),
+global_block(gblk),
 base_pointer(mem.get_size()-1)
 {
 }
@@ -19,11 +19,11 @@ base_pointer(mem.get_size()-1)
 
 
 
-Frame&
+FunctionFrame&
 Context::
 get_top_frame()
 {
-  return frame_list.back();
+  return functionframe_list.back();
 }
 
 
@@ -31,44 +31,7 @@ int
 Context::
 get_level() const
 {
-  return frame_list.size();
-}
-
-
-void
-Context::
-push_object_list()
-{
-  auto&  frame = frame_list.back();
-
-  frame.object_list_table.emplace_back();
-}
-
-
-size_t
-Context::
-pop_object_list()
-{
-  auto&  frame = frame_list.back();
-
-    if(frame.object_list_table.size())
-    {
-        for(auto&  obj: frame.object_list_table.back())
-        {
-            if(obj.kind == ObjectKind::auto_variable)
-            {
-              memory[obj.value].clear();
-
-              ++base_pointer.value;
-            }
-        }
-
-
-      frame.object_list_table.pop_back();
-    }
-
-
-  return frame.object_list_table.size();
+  return functionframe_list.size();
 }
 
 
@@ -104,29 +67,49 @@ call(const Function&  fn, const Calling&  cal)
     }
 
 
-  frame_list.emplace_back(cal);
+/*
+  functionframe_list.emplace_back(cal);
 
-  frame_list.back().object_list_table.emplace_back(fn.get_static_object_list());
+  auto  retval = enter(fn,std::move(buf),fn.reference_sign);
+
+  functionframe_list.pop_back();
+*/
+
+
+//  return std::move(retval);
+}
+
+
+Value
+Context::
+enter(const Block&  blk, ObjectList&&  objls, bool  return_reference)
+{
+/*
+  frame_list.back().object_list_table.emplace_back(blk.get_static_object_list());
 
   auto&  dst = frame_list.back().object_list_table.back();
 
-    for(auto&  obj: buf)
+    for(auto&  obj: objls)
     {
       dst.emplace_back(std::move(obj));
     }
 
 
-  auto  val = fn(*this);
+  auto&  stmtls = blk.get_statement_list();
+
+  current = 
+
+
+  step(*this,return_reference);
+
 
     while(pop_object_list())
     {
     }
 
 
-  frame_list.pop_back();
-
-
   return std::move(val);
+*/
 }
 
 
@@ -134,6 +117,7 @@ void
 Context::
 make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Value&  val)
 {
+/*
     if(flags&Parameter::reference_flag)
     {
         if(val.kind != ValueKind::reference)
@@ -155,6 +139,7 @@ make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Val
 
       memory[ptr] = val.dereference(memory);
     }
+*/
 }
 
 
@@ -162,7 +147,7 @@ void
 Context::
 make_auto_object(const std::string&  id, int  flags, const Value&  val)
 {
-  make_auto_object(frame_list.back().object_list_table.back(),id,flags,val);
+//  make_auto_object(frame_list.back().object_list_table.back(),id,flags,val);
 }
 
 
@@ -170,46 +155,18 @@ Object*
 Context::
 find_object(const std::string&  id)
 {
-    if(frame_list.size())
+    if(functionframe_list.size())
     {
-      auto&  frame = frame_list.back();
+      auto  obj = functionframe_list.back().find_object(id);
 
-      auto   it = frame.object_list_table.rbegin();
-      auto  end = frame.object_list_table.rend();
-
-        while(it != end)
+        if(obj)
         {
-          auto&  ls = *it++;
-
-            for(auto&  obj: ls)
-            {
-                if(obj.identifier == id)
-                {
-                  return &obj;
-                }
-            }
+          return obj;
         }
     }
 
 
-    for(auto&  obj: global_object_list)
-    {
-        if(obj.identifier == id)
-        {
-          return &obj;
-        }
-    }
-
-
-  return nullptr;
-}
-
-
-Value&
-Context::
-get_value(Pointer  ptr)
-{
-  return memory[ptr];
+  return global_block.find_static_object(id);
 }
 
 
@@ -219,13 +176,14 @@ print() const
 {
   printf("****\n");
 
-  auto  n = frame_list.size();
+  auto  n = functionframe_list.size();
 
   printf("context level is %3d\n",n);
 
     if(n)
     {
-      auto&  frame = frame_list.back();
+/*
+      auto&  frame = functionframe_list.back();
 
       printf("%s\n",frame.calling.identifier.data());
 
@@ -243,15 +201,11 @@ print() const
               printf("\n");
             }
         }
+*/
     }
 
 
-    for(auto&  obj: global_object_list)
-    {
-      obj.print(memory);
-
-      printf("\n");
-    }
+  global_block.print(memory);
 
 
   printf("****\n\n");

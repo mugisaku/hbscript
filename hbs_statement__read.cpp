@@ -1,7 +1,9 @@
 #include"hbs_statement.hpp"
 #include"hbs_block.hpp"
+#include"hbs_conditionalblock.hpp"
 #include"hbs_function.hpp"
 #include"hbs_expression_node.hpp"
+#include"hbs_ifstatement.hpp"
 
 
 
@@ -59,6 +61,16 @@ read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth)
     {
       auto&  nd = cur.get();
 
+        if(nd == "if_statement")
+        {
+          auto  ifstmt = new IfStatement;
+
+          ifstmt->read(nd,mem,depth);
+
+          reset(ifstmt);
+        }
+
+      else
         if(nd == "break_statement")
         {
           read_break_statement(nd);

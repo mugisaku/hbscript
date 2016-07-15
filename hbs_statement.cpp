@@ -1,5 +1,7 @@
 #include"hbs_statement.hpp"
 #include"hbs_block.hpp"
+#include"hbs_conditionalblock.hpp"
+#include"hbs_ifstatement.hpp"
 
 
 
@@ -63,6 +65,9 @@ operator=(const Statement&  rhs)
       case(StatementKind::continue_):
         data.id = new std::string(*rhs.data.id);
         break;
+      case(StatementKind::ifstmt):
+        data.ifstmt = new IfStatement(*rhs.data.ifstmt);
+        break;
       default:
         report;
     }
@@ -116,6 +121,9 @@ clear()
       case(StatementKind::continue_):
         delete data.id;
         break;
+      case(StatementKind::ifstmt):
+        delete data.ifstmt;
+        break;
       default:
         report;
     }
@@ -163,6 +171,18 @@ reset(const Debug&  dbg)
 
 void
 Statement::
+reset(IfStatement*  ifstmt)
+{
+  clear();
+
+  kind = StatementKind::ifstmt;
+
+  data.ifstmt = ifstmt;
+}
+
+
+void
+Statement::
 print(const Memory&  mem) const
 {
     switch(kind)
@@ -196,6 +216,9 @@ print(const Memory&  mem) const
         break;
       case(StatementKind::expression):
         data.expr->print(mem);
+        break;
+      case(StatementKind::ifstmt):
+        data.ifstmt->print(mem);
         break;
       default:
         report;

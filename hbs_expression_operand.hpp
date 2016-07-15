@@ -5,13 +5,13 @@
 #include"libmkf/mkf_node.hpp"
 #include"libmkf/mkf_cursor.hpp"
 #include"hbs_value.hpp"
-#include"hbs_context.hpp"
 
 
 
 
 struct Calling;
 struct Accessing;
+struct Context;
 
 
 namespace expression{

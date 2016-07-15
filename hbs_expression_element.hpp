@@ -4,6 +4,7 @@
 
 #include"hbs_value.hpp"
 #include"hbs_expression_operand.hpp"
+#include<vector>
 
 
 namespace expression{
@@ -106,6 +107,9 @@ Element
   void  print(const Memory&  mem) const;
 
 };
+
+
+using ElementList = std::vector<Element>;
 
 
 }

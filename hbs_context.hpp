@@ -2,25 +2,8 @@
 #define HBS_CONTEXT_HPP_INCLUDED
 
 
-#include"hbs_object.hpp"
-
-
-struct Block;
-struct Function;
-struct Calling;
-
-
-struct
-Frame
-{
-  const Calling&  calling;
-
-  std::vector<ObjectList>  object_list_table;
-
-  Frame(const Calling&  ca):
-  calling(ca){}
-
-};
+#include"hbs_functionframe.hpp"
+#include"hbs_calling.hpp"
 
 
 struct
@@ -28,29 +11,28 @@ Context
 {
   Memory&  memory;
 
-  ObjectList  global_object_list;
+  Block&  global_block;
 
-  std::vector<Frame>  frame_list;
+  std::vector<FunctionFrame>  functionframe_list;
 
   Pointer  base_pointer;
 
 
-  Context(Memory&  mem, const ObjectList&  gobj_list);
+  Context(Memory&  mem, Block&  gblk);
 
-  void    push_object_list();
-  size_t   pop_object_list();
+  FunctionFrame&  get_top_frame();
 
-  Frame&  get_top_frame();
   int  get_level() const;
 
-  Value  call(const Function&  fn, const Calling&  cal);
+  Value   call(const Function&  fn, const Calling&  cal);
+  Value  enter(const Block&  blk, ObjectList&&  objls, bool  return_reference);
+
+  void  step();
 
   void  make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Value&  val);
   void  make_auto_object(const std::string&  id, int  flags, const Value&  val);
 
   Object*  find_object(const std::string&  id);
-
-  Value&  get_value(Pointer  ptr);
 
   void  print() const;
 

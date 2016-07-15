@@ -68,14 +68,18 @@ OBJ +=                         \
   hbs_memory.o                 \
   hbs_calling.o                \
   hbs_context.o                \
+  hbs_context__step.o          \
   hbs_expression_node.o        \
   hbs_expression_node__make.o  \
   hbs_expression_node__read.o  \
   hbs_expression_operand.o     \
   hbs_expression_element.o     \
-  hbs_function.o               \
-  hbs_function__start.o        \
   hbs_block.o                  \
+  hbs_blockframe.o             \
+  hbs_function.o               \
+  hbs_functionframe.o          \
+  hbs_conditionalblock.o       \
+  hbs_ifstatement.o            \
 
 
 all: $(BIN)

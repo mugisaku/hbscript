@@ -26,6 +26,23 @@ make_static_object(Memory&  mem, std::string&&  id)
 }
 
 
+Object*
+Block::
+find_static_object(const std::string&  id)
+{
+    for(auto&  obj: static_object_list)
+    {
+        if(obj.identifier == id)
+        {
+          return &obj;
+        }
+    }
+
+
+  return nullptr;
+}
+
+
 const ObjectList&
 Block::
 get_static_object_list() const
@@ -42,14 +59,12 @@ append(Statement&&  stmt)
 }
 
 
-
-void
+const StatementList&
 Block::
-change_identifier(std::string&&  id)
+get_statement_list() const
 {
-  identifier = std::move(id);
+  return statement_list;
 }
-
 
 
 void

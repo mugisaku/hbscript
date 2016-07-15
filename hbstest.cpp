@@ -1,5 +1,6 @@
 #include"hbs_block.hpp"
 #include"hbs_function.hpp"
+#include"hbs_context.hpp"
 #include"libmkf/mkf_book.hpp"
 #include"libmkf/mkf_file.hpp"
 #include"libmkf/mkf_parsecontext.hpp"
@@ -13,7 +14,7 @@ main(int  argc, char**  argv)
 {
   Memory  mem(800);
 
-  Function  globblk;
+  Block  globblk;
 
   mkf::Book  book;
 
@@ -36,11 +37,11 @@ main(int  argc, char**  argv)
     {
       root->print();
 
-      globblk.Block::read(*root,mem,0);
+      globblk.read(*root,mem,0);
 
       globblk.print(mem);
 
-      Context  ctx(mem,globblk.get_static_object_list());
+      Context  ctx(mem,globblk);
 
       auto  obj = ctx.find_object("main");
 

@@ -54,9 +54,12 @@ step                  = expression;
 
 if_statement = if_block:{elseif_block}:[else_block];
 
-if_block     = "if":"(":expression:")":block;
-elseif_block = "else":white_space:if_block;
+if_block     =                    "if":conditional_block;
+elseif_block = "else":white_space:"if":conditional_block;
 else_block   = "else":block;
+
+labeled_block     = identifier:":":block;
+conditional_block = "(":expression:")":block;
 
 block = "{":{statement}:"}";
 

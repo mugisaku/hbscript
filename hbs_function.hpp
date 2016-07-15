@@ -21,8 +21,6 @@ Function: public Block
 
   Function();
 
-  Value  operator()(Context&  ctx) const;
-
   void  print(const Memory&  mem) const;
 
 

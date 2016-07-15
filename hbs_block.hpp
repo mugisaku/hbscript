@@ -19,20 +19,22 @@ class
 Block
 {
 protected:
-  std::string  identifier;
-
-  std::vector<Statement>  statement_list;
+  StatementList  statement_list;
 
   ObjectList  static_object_list;
 
 public:
+  operator bool() const{return statement_list.size();}
+
   Pointer  make_static_object(Memory&  mem, std::string&&  id);
 
   const ObjectList&  get_static_object_list() const;
 
+  Object*  find_static_object(const std::string&  id);
+
   void  append(Statement&&  stmt);
 
-  void  change_identifier(std::string&&  id);
+  const StatementList&  get_statement_list() const;
 
   void  print(const Memory&  mem) const;
 
@@ -42,6 +44,24 @@ public:
 };
 
 
+class
+LabeledBlock: public Block
+{
+  std::string  label;
+
+public:
+  void  change_label(std::string&&  lb){label = std::move(lb);}
+
+  const std::string&  get_label() const{return label;}
+
+  void  print(const Memory&  mem) const
+  {
+    printf("%s:\n",label.data());
+
+    Block::print(mem);
+  }
+
+};
 
 
 #endif

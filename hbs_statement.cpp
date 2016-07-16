@@ -68,6 +68,9 @@ operator=(const Statement&  rhs)
       case(StatementKind::ifstmt):
         data.ifstmt = new IfStatement(*rhs.data.ifstmt);
         break;
+      case(StatementKind::whilestmt):
+        data.condblk = new ConditionalBlock(*rhs.data.condblk);
+        break;
       default:
         report;
     }
@@ -124,60 +127,15 @@ clear()
       case(StatementKind::ifstmt):
         delete data.ifstmt;
         break;
+      case(StatementKind::whilestmt):
+        delete data.condblk;
+        break;
       default:
         report;
     }
 
 
   kind = StatementKind::null;
-}
-
-
-void
-Statement::
-reset(expression::Node*  expr)
-{
-  clear();
-
-  kind = StatementKind::expression;
-
-  data.expr = expr;
-}
-
-
-void
-Statement::
-reset(VarDecl*  vardecl)
-{
-  clear();
-
-  kind = StatementKind::vardecl;
-
-  data.vardecl = vardecl;
-}
-
-
-void
-Statement::
-reset(const Debug&  dbg)
-{
-  clear();
-
-  kind = StatementKind::debug;
-
-  data.expr = dbg.expr;
-}
-
-
-void
-Statement::
-reset(IfStatement*  ifstmt)
-{
-  clear();
-
-  kind = StatementKind::ifstmt;
-
-  data.ifstmt = ifstmt;
 }
 
 
@@ -219,6 +177,10 @@ print(const Memory&  mem) const
         break;
       case(StatementKind::ifstmt):
         data.ifstmt->print(mem);
+        break;
+      case(StatementKind::whilestmt):
+        printf("while");
+        data.condblk->print(mem);
         break;
       default:
         report;

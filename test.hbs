@@ -3,56 +3,35 @@
 
 
 function
-test0(a)
-{
-  a += 100;
-}
-
-
-function
-test1(&a)
-{
-  a += 1000;
-}
-
-
-function
-test2 &(&a)
-{
-  return a;
-}
-
-
-function
-test3(a)
-{
-  return a*a;
-}
-
-
-function
 main()
 {
-  var  x=3;
+  var  x=100;
 
-    if(x != 0)
+var  n = 0;
+
+    while(x)
     {
-        if(x == 1)
+      n += 1;
+
+        if(n > 8)
         {
-          return 64;
+          n = 256;
+
+          continue;
         }
 
-      else
-        if(x == 2)
+
+        if(n > 300)
         {
-          return 128;
+          break;
         }
+
+
+      x -= 1;
     }
 
 
-  test2(x) += 1234;
-
-  return x;
+  return n;
 }
 
 

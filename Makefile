@@ -56,6 +56,7 @@ BIN = hbs$(EXE_EXT)
 
 OBJ +=                         \
   hbs_statement.o              \
+  hbs_statement__reset.o       \
   hbs_statement__read.o        \
   hbs_parameter.o              \
   hbs_object.o                 \

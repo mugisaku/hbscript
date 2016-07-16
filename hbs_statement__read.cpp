@@ -71,6 +71,17 @@ read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth)
         }
 
       else
+        if(nd == "while_statement")
+        {
+          read_while_statement(nd,mem,depth);
+        }
+
+      else
+        if(nd == "for_statement")
+        {
+        }
+
+      else
         if(nd == "break_statement")
         {
           read_break_statement(nd);
@@ -86,6 +97,31 @@ read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth)
         if(nd == "return_statement")
         {
           read_return_statement(nd);
+        }
+
+
+      cur.advance();
+    }
+}
+
+
+void
+Statement::
+read_while_statement(const mkf::Node&  src, Memory&  mem, int  depth)
+{
+  mkf::Cursor  cur(src);
+
+    while(!cur.test_ended())
+    {
+      auto&  nd = cur.get();
+
+        if(nd == "conditional_block")
+        {
+          auto  condblk = new ConditionalBlock;
+
+          condblk->read(nd,mem,depth);
+
+          reset(condblk);
         }
 
 
@@ -125,17 +161,23 @@ read_continue_statement(const mkf::Node&  src)
 {
   mkf::Cursor  cur(src);
 
+  std::string*  id = new std::string;
+
     while(!cur.test_ended())
     {
       auto&  nd = cur.get();
 
         if(nd == "identifier")
         {
+          nd.collect_characters(*id);
         }
 
 
       cur.advance();
     }
+
+
+  reset(Continue(id));
 }
 
 
@@ -145,17 +187,23 @@ read_break_statement(const mkf::Node&  src)
 {
   mkf::Cursor  cur(src);
 
+  std::string*  id = new std::string;
+
     while(!cur.test_ended())
     {
       auto&  nd = cur.get();
 
         if(nd == "identifier")
         {
+          nd.collect_characters(*id);
         }
 
 
       cur.advance();
     }
+
+
+  reset(Break(id));
 }
 
 

@@ -20,6 +20,8 @@ Context
   enum class LeaveStatus{
     returned,
     ended,
+    broke,
+    continued,
   };
 
 public:

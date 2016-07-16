@@ -18,6 +18,8 @@ declaration_statement =
 
 control_statement =
         if_statement|
+     while_statement|
+       for_statement|
     return_statement|
      break_statement|
   continue_statement|
@@ -36,18 +38,22 @@ enumerator = identifier:["=":expression];
 
 
 
-break_statement    = "break":identifier:[";"];
-continue_statement = "continue":identifier:[";"];
+break_statement    =    "break":[white_space:identifier]:[";"];
+continue_statement = "continue":[white_space:identifier]:[";"];
 label_statement    = identifier:":":block;
 return_statement   = "return":[expression]:[";"];
 
 
 
 
-for_statement = "for":"(":[for_block_initializer]:";":[condition]:";":[step]:")";
-for_block_initializer = expression;
-condition             = expression;
-step                  = expression;
+for_statement = "for":"(":[var_declaration]:";":[for_condition]:";":[for_step]:")";
+for_condition = expression;
+for_step      = expression;
+
+
+
+
+while_statement = "while":conditional_block;
 
 
 

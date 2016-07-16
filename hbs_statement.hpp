@@ -18,6 +18,7 @@ struct Block;
 struct ConditionalBlock;
 struct LabeledBlock;
 struct IfStatement;
+struct ForStatement;
 
 
 enum class
@@ -36,6 +37,7 @@ StatementKind
   return_,
   ifstmt,
   forstmt,
+  whilestmt,
 
 };
 
@@ -46,6 +48,26 @@ Debug
   expression::Node*  expr;
 
   Debug(expression::Node*  expr_): expr(expr_){}
+
+};
+
+
+struct
+Continue
+{
+  std::string*  id;
+
+  Continue(std::string*  id_=nullptr): id(id_){}
+
+};
+
+
+struct
+Break
+{
+  std::string*  id;
+
+  Break(std::string*  id_=nullptr): id(id_){}
 
 };
 
@@ -70,11 +92,12 @@ Statement
   StatementKind  kind;
 
   union{
-    VarDecl*             vardecl;
-    std::string*         id;
-    Block*              blk;
-    expression::Node*  expr;
-    IfStatement*     ifstmt;
+    VarDecl*           vardecl;
+    std::string*            id;
+    Block*                 blk;
+    ConditionalBlock*  condblk;
+    expression::Node*     expr;
+    IfStatement*        ifstmt;
 
   } data;
 
@@ -96,13 +119,17 @@ Statement
   void  reset(VarDecl*  vardecl);
   void  reset(const Debug&  dbg);
   void  reset(IfStatement*  ifstmt);
+  void  reset(ConditionalBlock*  condblk);
+  void  reset(const Break&     brk);
+  void  reset(const Continue&  con);
 
   void  print(const Memory&  mem) const;
 
 
   void  read(const mkf::Node&  src, Memory&  mem, int  depth);
   void  read_debug_statement(const mkf::Node&  src);
-  void  read_control_statement( const mkf::Node&  src, Memory&  mem, int  depth);
+  void  read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth);
+  void  read_while_statement(  const mkf::Node&  src, Memory&  mem, int  depth);
   void  read_break_statement(   const mkf::Node&  src);
   void  read_continue_statement(const mkf::Node&  src);
   void  read_return_statement(  const mkf::Node&  src);

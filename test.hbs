@@ -33,32 +33,26 @@ test3(a)
 function
 main()
 {
-  var  x=0;
+  var  x=3;
 
-    if(x == 0)
+    if(x != 0)
     {
-      return 32;
-    }
+        if(x == 1)
+        {
+          return 64;
+        }
 
-  else
-    if(x == 1)
-    {
-      return 64;
-    }
-
-  else
-    if(x == 2)
-    {
-      return 128;
-    }
-
-  else
-    {
-      return 256;
+      else
+        if(x == 2)
+        {
+          return 128;
+        }
     }
 
 
-  return 0;
+  test2(x) += 1234;
+
+  return x;
 }
 
 

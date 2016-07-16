@@ -26,9 +26,9 @@ make_static_object(Memory&  mem, std::string&&  id)
 }
 
 
-Object*
+const Object*
 Block::
-find_static_object(const std::string&  id)
+find_static_object(const std::string&  id) const
 {
     for(auto&  obj: static_object_list)
     {

@@ -56,8 +56,6 @@ main(int  argc, char**  argv)
           retval.print(mem);
 
           printf("\n");
-
-          ctx.print();
         }
     }
 

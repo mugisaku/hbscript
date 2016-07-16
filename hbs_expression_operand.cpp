@@ -174,7 +174,7 @@ get_value(Context&  ctx) const
 
             if(obj)
             {
-              return obj->get_value(ctx.memory);
+              return obj->get_value(ctx.get_memory());
             }
 
           else
@@ -196,7 +196,7 @@ get_value(Context&  ctx) const
 
             if(obj)
             {
-              auto&  val = ctx.memory[obj->value];
+              auto&  val = ctx.get_memory()[obj->value];
 
                 if(val.kind == ValueKind::function)
                 {

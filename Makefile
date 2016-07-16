@@ -68,7 +68,7 @@ OBJ +=                         \
   hbs_memory.o                 \
   hbs_calling.o                \
   hbs_context.o                \
-  hbs_context__step.o          \
+  hbs_context__enter.o         \
   hbs_expression_node.o        \
   hbs_expression_node__make.o  \
   hbs_expression_node__read.o  \

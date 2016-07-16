@@ -35,17 +35,51 @@ get_level() const
 }
 
 
+Memory&
+Context::
+get_memory()
+{
+  return memory;
+}
+
+
+const Memory&
+Context::
+get_const_memory() const
+{
+  return memory;
+}
+
+
+void
+Context::
+release_auto_object(const ObjectList&  objls)
+{
+    for(auto&  obj: objls)
+    {
+        if(obj.kind == ObjectKind::auto_variable)
+        {
+          memory[obj.value].clear();
+
+          ++base_pointer.value;
+        }
+    }
+}
+
+
 Value
 Context::
 call(const Function&  fn, const Calling&  cal)
 {
+//  const Pointer  src_ptr = base_pointer;
+
     if(fn.parameters.size() != cal.arguments.size())
     {
       report;
 
       printf("仮引数に対して、実引数の数が一致しません\n");
 
-      return Value::undefined;
+      return false;
     }
 
 
@@ -67,49 +101,21 @@ call(const Function&  fn, const Calling&  cal)
     }
 
 
-/*
-  functionframe_list.emplace_back(cal);
+  functionframe_list.emplace_back(fn,cal);
 
-  auto  retval = enter(fn,std::move(buf),fn.reference_sign);
+
+  Value  retval;
+
+  enter(fn,std::move(buf),retval);
+
+  functionframe_list.back().leave(*this);
 
   functionframe_list.pop_back();
-*/
 
+//  printf("onstart    %8d\n",src_ptr.value);
+//  printf("onfinished %8d\n",base_pointer.value);
 
-//  return std::move(retval);
-}
-
-
-Value
-Context::
-enter(const Block&  blk, ObjectList&&  objls, bool  return_reference)
-{
-/*
-  frame_list.back().object_list_table.emplace_back(blk.get_static_object_list());
-
-  auto&  dst = frame_list.back().object_list_table.back();
-
-    for(auto&  obj: objls)
-    {
-      dst.emplace_back(std::move(obj));
-    }
-
-
-  auto&  stmtls = blk.get_statement_list();
-
-  current = 
-
-
-  step(*this,return_reference);
-
-
-    while(pop_object_list())
-    {
-    }
-
-
-  return std::move(val);
-*/
+  return std::move(retval);
 }
 
 
@@ -117,7 +123,6 @@ void
 Context::
 make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Value&  val)
 {
-/*
     if(flags&Parameter::reference_flag)
     {
         if(val.kind != ValueKind::reference)
@@ -139,7 +144,6 @@ make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Val
 
       memory[ptr] = val.dereference(memory);
     }
-*/
 }
 
 
@@ -147,13 +151,13 @@ void
 Context::
 make_auto_object(const std::string&  id, int  flags, const Value&  val)
 {
-//  make_auto_object(frame_list.back().object_list_table.back(),id,flags,val);
+  make_auto_object(get_top_frame().get_top_frame()->get_object_list(),id,flags,val);
 }
 
 
-Object*
+const Object*
 Context::
-find_object(const std::string&  id)
+find_object(const std::string&  id) const
 {
     if(functionframe_list.size())
     {
@@ -182,26 +186,7 @@ print() const
 
     if(n)
     {
-/*
-      auto&  frame = functionframe_list.back();
-
-      printf("%s\n",frame.calling.identifier.data());
-
-      auto   it = frame.object_list_table.rbegin();
-      auto  end = frame.object_list_table.rend();
-
-        while(it != end)
-        {
-          auto&  ls = *it++;
-
-            for(auto&  obj: ls)
-            {
-              obj.print(memory);
-
-              printf("\n");
-            }
-        }
-*/
+      functionframe_list.back().print(memory);
     }
 
 

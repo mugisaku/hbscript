@@ -30,7 +30,7 @@ public:
 
   const ObjectList&  get_static_object_list() const;
 
-  Object*  find_static_object(const std::string&  id);
+  const Object*  find_static_object(const std::string&  id) const;
 
   void  append(Statement&&  stmt);
 

@@ -154,7 +154,7 @@ get_value(Context&  ctx) const
     }
 
 
-  Memory&  mem = ctx.memory;
+  Memory&  mem = ctx.get_memory();
 
   auto  a = left->get_value(ctx);
 

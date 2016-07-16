@@ -6,33 +6,41 @@
 #include"hbs_calling.hpp"
 
 
-struct
+class
 Context
 {
   Memory&  memory;
 
   Block&  global_block;
 
-  std::vector<FunctionFrame>  functionframe_list;
+  std::list<FunctionFrame>  functionframe_list;
 
   Pointer  base_pointer;
 
+  enum class LeaveStatus{
+    returned,
+    ended,
+  };
 
+public:
   Context(Memory&  mem, Block&  gblk);
 
   FunctionFrame&  get_top_frame();
 
   int  get_level() const;
 
-  Value   call(const Function&  fn, const Calling&  cal);
-  Value  enter(const Block&  blk, ObjectList&&  objls, bool  return_reference);
+        Memory&        get_memory()      ;
+  const Memory&  get_const_memory() const;
 
-  void  step();
+  Value         call(const Function&  fn, const Calling&  cal);
+  LeaveStatus  enter(const Block&  blk, ObjectList&&  objls, Value&  retval);
 
   void  make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Value&  val);
   void  make_auto_object(const std::string&  id, int  flags, const Value&  val);
 
-  Object*  find_object(const std::string&  id);
+  void  release_auto_object(const ObjectList&  objls);
+
+  const Object*  find_object(const std::string&  id) const;
 
   void  print() const;
 

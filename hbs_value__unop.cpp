@@ -86,11 +86,47 @@ logical_not(Memory&  mem) const
       case(ValueKind::pointer):
       case(ValueKind::boolean):
         return Value(!v.get_integer());
+        break;
       default:;
     }
 
 
   return Value(ValueKind::undefined);
+}
+
+
+
+Value
+Value::
+new_(Memory&  mem) const
+{
+  auto&  v = dereference(mem);
+
+  auto  ptr = mem.allocate();
+
+  mem[ptr] = v;
+
+  return Value(ptr);
+}
+
+
+Value
+Value::
+delete_(Memory&  mem) const
+{
+  auto&  v = dereference(mem);
+
+    switch(v.kind)
+    {
+      case(ValueKind::integer):
+      case(ValueKind::pointer):
+        mem.free(v.data.i);
+        break;
+      default:;
+    }
+
+
+  return Value(ValueKind::void_);
 }
 
 

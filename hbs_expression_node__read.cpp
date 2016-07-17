@@ -70,6 +70,8 @@ read_unary_operator(const mkf::Node&  base)
       else if(nd == "*"        ){return UnaryOperator::indir      ;}
       else if(nd == "!"        ){return UnaryOperator::logical_not;}
       else if(nd == "&"        ){return UnaryOperator::addr       ;}
+      else if(nd == "new"      ){return UnaryOperator::new_       ;}
+      else if(nd == "delete"   ){return UnaryOperator::delete_    ;}
 
 
       cur.advance();

@@ -167,6 +167,8 @@ get_value(Context&  ctx) const
           case(UnaryOperator::logical_not): return a.logical_not(mem);
           case(UnaryOperator::bit_not    ): return a.bit_not(mem);
           case(UnaryOperator::invrt      ): return a.invert(mem);
+          case(UnaryOperator::new_       ): return a.new_(mem);
+          case(UnaryOperator::delete_    ): return a.delete_(mem);
         }
     }
 

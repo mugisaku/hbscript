@@ -20,7 +20,9 @@ get_priority(const Element&  el)
             case(UnaryOperator::addr       ):
             case(UnaryOperator::logical_not):
             case(UnaryOperator::bit_not    ):
-            case(UnaryOperator::invrt      ): return 0x80;
+            case(UnaryOperator::invrt      ):
+            case(UnaryOperator::new_       ):
+            case(UnaryOperator::delete_    ): return 0x80;
           }
         break;
       case(ElementKind::binary_operator):

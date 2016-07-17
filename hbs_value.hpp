@@ -13,7 +13,9 @@
 
 
 struct Function;
-struct Variable;
+struct Array;
+struct Struct;
+struct List;
 struct Memory;
 
 
@@ -129,6 +131,8 @@ Value
   Value       invert(Memory&  mem) const;
   Value      bit_not(Memory&  mem) const;
   Value  logical_not(Memory&  mem) const;
+  Value         new_(Memory&  mem) const;
+  Value      delete_(Memory&  mem) const;
 
   Value  operate_add(Memory&  mem, const Value&  rhs) const;
   Value  operate_sub(Memory&  mem, const Value&  rhs) const;

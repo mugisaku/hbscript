@@ -116,6 +116,16 @@ var_declaration = ["static":white_space]:"var":["&"]:white_space:["const":white_
 white_space = CTYPE_space:{CTYPE_space};
 
 
+struct_literal = "{":[structure_member:{",":structure_member}]:"}";
+
+struct_member = identifier:":":expression;
+
+
+
+array_literal = "{":[expresssion:{",":expresssion}]:"}";
+
+
+
 integer_literal = hex_literal|binary_literal|decimal_literal;
 
 
@@ -162,11 +172,13 @@ binary_operator =
 
 
 unary_operator =
-  "&"  |
-  "*"  |
-  "!"  |
-  "~"  |
-  "-"  ;
+     "&"  |
+     "*"  |
+     "!"  |
+     "~"  |
+     "-"  |
+     "new"|
+  "delete";
 
 
 

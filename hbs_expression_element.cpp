@@ -150,6 +150,8 @@ get_string(UnaryOperator  op)
       case(UnaryOperator::logical_not): return"!";
       case(UnaryOperator::bit_not    ): return"~";
       case(UnaryOperator::invrt      ): return"-";
+      case(UnaryOperator::new_       ): return"new ";
+      case(UnaryOperator::delete_    ): return"delete ";
 
       default:;
     }

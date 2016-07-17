@@ -63,6 +63,8 @@ UnaryOperator
   logical_not,
   indir,
   addr,
+  new_,
+  delete_,
 
 };
 

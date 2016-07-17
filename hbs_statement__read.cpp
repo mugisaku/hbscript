@@ -34,7 +34,7 @@ read(const mkf::Node&  src, Memory&  mem, int  depth)
       else
         if(nd == "debug")
         {
-          read_debug_statement(nd);
+          read_debug_statement(nd,mem);
         }
 
       else
@@ -52,7 +52,7 @@ read(const mkf::Node&  src, Memory&  mem, int  depth)
         {
           auto  expr = new expression::Node;
 
-          expr->read(nd);
+          expr->read(nd,mem);
 
           reset(expr);
         }
@@ -113,7 +113,7 @@ read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth)
       else
         if(nd == "return_statement")
         {
-          read_return_statement(nd);
+          read_return_statement(nd,mem);
         }
 
 
@@ -149,7 +149,7 @@ read_while_statement(const mkf::Node&  src, Memory&  mem, int  depth)
 
 void
 Statement::
-read_debug_statement(const mkf::Node&  src)
+read_debug_statement(const mkf::Node&  src, Memory&  mem)
 {
   mkf::Cursor  cur(src);
 
@@ -161,7 +161,7 @@ read_debug_statement(const mkf::Node&  src)
         {
           auto  expr = new expression::Node;
 
-          expr->read(nd);
+          expr->read(nd,mem);
 
           reset(Debug(expr));
         }
@@ -226,7 +226,7 @@ read_break_statement(const mkf::Node&  src)
 
 void
 Statement::
-read_return_statement(const mkf::Node&  src)
+read_return_statement(const mkf::Node&  src, Memory&  mem)
 {
   mkf::Cursor  cur(src);
 
@@ -240,7 +240,7 @@ read_return_statement(const mkf::Node&  src)
         {
           data.expr = new expression::Node;
 
-          data.expr->read(nd);
+          data.expr->read(nd,mem);
 
           kind = StatementKind::return_;
         }
@@ -267,7 +267,7 @@ read_declaration(const mkf::Node&  src, Memory&  mem, int  depth)
         {
           auto  vardecl = new VarDecl;
 
-          vardecl->read(nd);
+          vardecl->read(nd,mem);
 
             if(depth == 1)
             {

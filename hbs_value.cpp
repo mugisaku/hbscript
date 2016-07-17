@@ -1,6 +1,7 @@
 #include"hbs_value.hpp"
 #include"hbs_expression_node.hpp"
 #include"hbs_function.hpp"
+#include"hbs_structure.hpp"
 #include"hbs_memory.hpp"
 
 
@@ -16,6 +17,7 @@ Value::Value(int                 i): kind(ValueKind::null){reset(i);}
 Value::Value(bool                b): kind(ValueKind::null){reset(b);}
 Value::Value(std::string*       s_): kind(ValueKind::null){reset(s_);}
 Value::Value(Function*          fn): kind(ValueKind::null){reset(fn);}
+Value::Value(expression::Node*  expr): kind(ValueKind::null){reset(expr);}
 Value::Value(const Pointer&    ptr): kind(ValueKind::null){reset(ptr);}
 Value::Value(const Reference&  ref): kind(ValueKind::null){reset(ref);}
 Value::Value(const Value&   rhs)         : kind(ValueKind::null){*this =          (rhs);}
@@ -56,6 +58,10 @@ operator=(const Value&   rhs)
       case(ValueKind::array):
         break;
       case(ValueKind::structure):
+        data.st = new Structure(*rhs.data.st);
+        break;
+      case(ValueKind::expression):
+        data.expr = new expression::Node(*rhs.data.expr);
         break;
       default:;
     }
@@ -93,13 +99,18 @@ clear()
       case(ValueKind::boolean):
       case(ValueKind::reference):
       case(ValueKind::array):
+        break;
       case(ValueKind::structure):
+        delete data.st;
         break;
       case(ValueKind::string):
         delete data.s;
         break;
       case(ValueKind::function):
         delete data.fn;
+        break;
+      case(ValueKind::expression):
+        delete data.expr;
         break;
       default:;
     }
@@ -162,6 +173,12 @@ print(const Memory&  mem) const
       case(ValueKind::function):
         printf("function");
         data.fn->print(mem);
+        break;
+      case(ValueKind::structure):
+        data.st->print();
+        break;
+      case(ValueKind::expression):
+        data.expr->print(mem);
         break;
       default:;
     }

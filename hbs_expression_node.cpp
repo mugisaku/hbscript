@@ -1,6 +1,7 @@
 #include"hbs_expression_node.hpp"
 #include"hbs_block.hpp"
 #include"hbs_context.hpp"
+#include"hbs_structure.hpp"
 
 
 
@@ -144,6 +145,45 @@ test_leaf() const
 }
 
 
+namespace
+{
+Value
+get_member(Value&  lhs, const std::string&  id, Memory&  mem)
+{
+    if(lhs.kind == ValueKind::pointer)
+    {
+      auto&  v = mem[lhs.data.i];
+
+        if(v.kind != ValueKind::structure)
+        {
+          report;
+        }
+
+
+      auto&  memb = v.data.st->get_member(id);
+
+      return Value(Reference(memb.pointer));
+    }
+
+  else
+    if(lhs.kind == ValueKind::structure)
+    {
+      auto&  memb = lhs.data.st->get_member(id);
+
+      return Value(Reference(memb.pointer));
+    }
+
+  else
+    {
+      report;
+    }
+
+
+  return Value::undefined;
+}
+}
+
+
 Value
 Node::
 get_value(Context&  ctx) const
@@ -170,6 +210,21 @@ get_value(Context&  ctx) const
           case(UnaryOperator::new_       ): return a.new_(mem);
           case(UnaryOperator::delete_    ): return a.delete_(mem);
         }
+    }
+
+
+    if((element.kind       == ElementKind::binary_operator) &&
+       (element.data.binop == BinaryOperator::memb))
+    {
+        if(!right                                                         ||
+           (right->element.kind               != ElementKind::operand   ) ||
+           (right->element.data.operand->kind != OperandKind::identifier))
+        {
+          printf("メンバー参照は、右辺値が識別子でなくてはなりません\n");
+        }
+
+
+      return get_member(a.dereference(mem),*right->element.data.operand->data.str,mem);
     }
 
 

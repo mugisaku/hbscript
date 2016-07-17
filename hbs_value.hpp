@@ -14,7 +14,7 @@
 
 struct Function;
 struct Array;
-struct Struct;
+struct Structure;
 struct List;
 struct Memory;
 
@@ -70,6 +70,7 @@ ValueKind
   function,
   structure,
   array,
+  expression,
 
 };
 
@@ -83,6 +84,8 @@ Value
     int             i;
     std::string*    s;
     Function*      fn;
+    Structure*     st;
+    expression::Node*  expr;
 
   } data;
 
@@ -92,6 +95,7 @@ Value
   Value(bool  b);
   Value(std::string*  s_);
   Value(Function*  fn);
+  Value(expression::Node*  expr);
   Value(const Pointer&  ptr);
   Value(const Reference&  ref);
   Value(const Value&   rhs);
@@ -110,6 +114,8 @@ Value
   void  reset(bool  b);
   void  reset(std::string*  s_);
   void  reset(Function*  fn);
+  void  reset(Structure*  st);
+  void  reset(expression::Node*  expr);
   void  reset(const Pointer&  ptr);
   void  reset(const Reference&  ref);
 
@@ -121,7 +127,7 @@ Value
 
   void  print(const Memory&  mem) const;
 
-  void  read(const mkf::Node&  src);
+  void  read_struct_literal(const mkf::Node&  src, Memory&  mem);
   void  read_integer_literal(const mkf::Node&  src);
   void  read_character_literal(const mkf::Node&  src);
 

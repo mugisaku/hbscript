@@ -36,7 +36,8 @@ read_binary_operator(const mkf::Node&  base)
       else if(nd == "^" ){return Element(BinaryOperator::bit_xor);}
       else if(nd == "&&"){return Element(BinaryOperator::logical_and);}
       else if(nd == "||"){return Element(BinaryOperator::logical_or);}
-      else if(nd == "="){return Element(BinaryOperator::nop,true);}
+      else if(nd == "." ){return Element(BinaryOperator::memb);}
+      else if(nd == "=" ){return Element(BinaryOperator::nop,true);}
       else if(nd == "+="){return Element(BinaryOperator::add,true);}
       else if(nd == "-="){return Element(BinaryOperator::sub,true);}
       else if(nd == "*="){return Element(BinaryOperator::mul,true);}
@@ -83,7 +84,7 @@ read_unary_operator(const mkf::Node&  base)
 
 
 void
-read_unary_operand(const mkf::Node&  base, ElementList&  ls)
+read_unary_operand(const mkf::Node&  base, Memory&  mem, ElementList&  ls)
 {
   mkf::Cursor  cur(base);
 
@@ -101,7 +102,7 @@ read_unary_operand(const mkf::Node&  base, ElementList&  ls)
         {
           auto  op = new Operand;
 
-          op->read(nd);
+          op->read(nd,mem);
 
           ls.emplace_back(op);
         }
@@ -111,7 +112,7 @@ read_unary_operand(const mkf::Node&  base, ElementList&  ls)
         {
           auto  expr = new Node;
 
-          expr->read(nd);
+          expr->read(nd,mem);
 
           ls.emplace_back(new Operand(expr));
         }
@@ -123,7 +124,7 @@ read_unary_operand(const mkf::Node&  base, ElementList&  ls)
 
 
 void
-read_binary_operand(const mkf::Node&  base, ElementList&  ls)
+read_binary_operand(const mkf::Node&  base, Memory&  mem, ElementList&  ls)
 {
   mkf::Cursor  cur(base);
 
@@ -139,7 +140,7 @@ read_binary_operand(const mkf::Node&  base, ElementList&  ls)
       else
         if(nd == "unary_operand")
         {
-          read_unary_operand(nd,ls);
+          read_unary_operand(nd,mem,ls);
         }
 
 
@@ -156,7 +157,7 @@ read_binary_operand(const mkf::Node&  base, ElementList&  ls)
 
 void
 Node::
-read(const mkf::Node&  base)
+read(const mkf::Node&  base, Memory&  mem)
 {
   mkf::Cursor  cur(base);
 
@@ -168,13 +169,13 @@ read(const mkf::Node&  base)
 
         if(nd == "binary_operand")
         {
-          read_binary_operand(nd,ls);
+          read_binary_operand(nd,mem,ls);
         }
 
       else
         if(nd == "unary_operand")
         {
-          read_unary_operand(nd,ls);
+          read_unary_operand(nd,mem,ls);
         }
 
 

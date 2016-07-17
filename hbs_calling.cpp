@@ -47,7 +47,7 @@ print(const Memory&  mem) const
 
 void
 Calling::
-read(const mkf::Node&  base)
+read(const mkf::Node&  base, Memory&  mem)
 {
   mkf::Cursor  cur(base);
 
@@ -64,7 +64,7 @@ read(const mkf::Node&  base)
         if(nd == "expression")
         {
           arguments.emplace_back();
-          arguments.back().read(nd);
+          arguments.back().read(nd,mem);
         }
 
 

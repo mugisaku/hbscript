@@ -259,7 +259,7 @@ print(const Memory&  mem) const
 
 void
 Operand::
-read(const mkf::Node&  base)
+read(const mkf::Node&  base, Memory&  mem)
 {
   mkf::Cursor  cur(base);
 
@@ -305,6 +305,15 @@ read(const mkf::Node&  base)
 
           reset(val);
         }
+      else
+        if(nd == "struct_literal")
+        {
+          auto  val = new Value;
+
+          val->read_struct_literal(nd,mem);
+
+          reset(val);
+        }
 
       else
         if(nd == "function_literal")
@@ -321,7 +330,7 @@ read(const mkf::Node&  base)
         {
           auto  ca = new Calling;
 
-          ca->read(nd);
+          ca->read(nd,mem);
 
           reset(ca);
         }

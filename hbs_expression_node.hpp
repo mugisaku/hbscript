@@ -43,7 +43,7 @@ Node
 
   void  print(const Memory&  mem) const;
 
-  void  read(const mkf::Node&  src);
+  void  read(const mkf::Node&  src, Memory&  mem);
 
 };
 

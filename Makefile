@@ -60,7 +60,9 @@ OBJ +=                         \
   hbs_statement__read.o        \
   hbs_parameter.o              \
   hbs_object.o                 \
+  hbs_structure.o              \
   hbs_value.o                  \
+  hbs_value__read_struct.o     \
   hbs_value__read_integer.o    \
   hbs_value__read_character.o  \
   hbs_value__reset.o           \

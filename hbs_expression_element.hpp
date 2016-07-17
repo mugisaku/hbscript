@@ -51,6 +51,8 @@ BinaryOperator
   gt,
   gteq,
 
+  memb,
+
 };
 
 

@@ -28,6 +28,8 @@ get_priority(const Element&  el)
       case(ElementKind::binary_operator):
           switch(el.data.binop)
           {
+            case(BinaryOperator::memb): return 0x90;
+
             case(BinaryOperator::mul        ):
             case(BinaryOperator::div        ):
             case(BinaryOperator::rem        ): return 0x70;

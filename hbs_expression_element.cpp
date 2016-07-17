@@ -186,6 +186,7 @@ get_string(BinaryOperator  op, bool  assign)
       case(BinaryOperator::gteq          ): return">=";
       case(BinaryOperator::logical_or    ): return"||";
       case(BinaryOperator::logical_and   ): return"&&";
+      case(BinaryOperator::memb          ): return".";
 
       default:;
     }

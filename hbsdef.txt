@@ -87,6 +87,8 @@ operand =
             accessing|
               calling|
            identifier|
+       struct_literal|
+        array_literal|
       integer_literal|
     character_literal|
        string_literal;
@@ -116,13 +118,13 @@ var_declaration = ["static":white_space]:"var":["&"]:white_space:["const":white_
 white_space = CTYPE_space:{CTYPE_space};
 
 
-struct_literal = "{":[structure_member:{",":structure_member}]:"}";
+struct_literal = "{":[struct_member:{",":struct_member}]:"}";
 
 struct_member = identifier:":":expression;
 
 
 
-array_literal = "{":[expresssion:{",":expresssion}]:"}";
+array_literal = "[":[expression:{",":expression}]:"]";
 
 
 
@@ -167,7 +169,6 @@ binary_operator =
   "^=" |
   "^"  |
   "!=" |
-  "->" |
   "."  ;
 
 
@@ -203,7 +204,44 @@ string_element =
             normal_character;
 
 
-normal_character = CTYPE_alnum|CTYPE_punct;
+normal_character =
+          " "|
+  CTYPE_alnum|
+   CTYPE_utf8|
+          "!"|
+          "#"|
+          "$"|
+          "%"|
+          "&"|
+          "("|
+          ")"|
+          "="|
+          "~"|
+          "|"|
+          "@"|
+          "["|
+          "]"|
+          "{"|
+          "}"|
+          ":"|
+          ";"|
+          "*"|
+          "+"|
+          "-"|
+          "`"|
+          "<"|
+          ">"|
+          "?"|
+          "_"|
+          ","|
+          "."|
+          "/"|
+              null_character   |
+              newline_character|
+            backslash_character|
+         single_quote_character|
+         double_quote_character;
+
 
 null_character         = "\\0";
 newline_character      = "\\n";

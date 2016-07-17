@@ -119,12 +119,12 @@ Statement
 
 
   void  read(const mkf::Node&  src, Memory&  mem, int  depth);
-  void  read_debug_statement(const mkf::Node&  src);
+  void  read_debug_statement(const mkf::Node&  src, Memory&  mem);
   void  read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth);
   void  read_while_statement(  const mkf::Node&  src, Memory&  mem, int  depth);
   void  read_break_statement(   const mkf::Node&  src);
   void  read_continue_statement(const mkf::Node&  src);
-  void  read_return_statement(  const mkf::Node&  src);
+  void  read_return_statement(  const mkf::Node&  src, Memory&  mem);
 
   void           read_declaration(const mkf::Node&  base, Memory&  mem, int  depth);
   void      read_enum_declaration(const mkf::Node&  base);

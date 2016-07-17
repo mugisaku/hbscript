@@ -64,6 +64,30 @@ reset(Function*  fn)
 
 void
 Value::
+reset(expression::Node*  expr)
+{
+  clear();
+
+  kind = ValueKind::expression;
+
+  data.expr = expr;
+}
+
+
+void
+Value::
+reset(Structure*  st)
+{
+  clear();
+
+  kind = ValueKind::structure;
+
+  data.st = st;
+}
+
+
+void
+Value::
 reset(const Pointer&  ptr)
 {
   clear();

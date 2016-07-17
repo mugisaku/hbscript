@@ -76,7 +76,7 @@ Operand
 
   Value  get_value(Context&  ctx) const;
 
-  void  read(const mkf::Node&  src);
+  void  read(const mkf::Node&  src, Memory&  mem);
 
 };
 

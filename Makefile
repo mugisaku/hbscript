@@ -80,7 +80,9 @@ OBJ +=                         \
   hbs_function.o               \
   hbs_functionframe.o          \
   hbs_conditionalblock.o       \
+  hbs_vardecl.o                \
   hbs_ifstatement.o            \
+  hbs_forstatement.o           \
 
 
 all: $(BIN)

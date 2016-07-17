@@ -4,6 +4,8 @@
 #include"hbs_function.hpp"
 #include"hbs_expression_node.hpp"
 #include"hbs_ifstatement.hpp"
+#include"hbs_forstatement.hpp"
+#include"hbs_vardecl.hpp"
 
 
 
@@ -33,6 +35,16 @@ read(const mkf::Node&  src, Memory&  mem, int  depth)
         if(nd == "debug")
         {
           read_debug_statement(nd);
+        }
+
+      else
+        if(nd == "block")
+        {
+          auto  blk = new Block;
+
+          blk->read(nd,mem,depth);
+
+          reset(blk);
         }
 
       else
@@ -79,6 +91,11 @@ read_control_statement(const mkf::Node&  src, Memory&  mem, int  depth)
       else
         if(nd == "for_statement")
         {
+          auto  forstmt = new ForStatement;
+
+          forstmt->read(nd,mem,depth);
+
+          reset(forstmt);
         }
 
       else
@@ -248,7 +265,24 @@ read_declaration(const mkf::Node&  src, Memory&  mem, int  depth)
 
         if(nd == "var_declaration")
         {
-          read_var_declaration(nd,mem,depth);
+          auto  vardecl = new VarDecl;
+
+          vardecl->read(nd);
+
+            if(depth == 1)
+            {
+              vardecl->flags |= Parameter::static_flag;
+            }
+
+
+          reset(vardecl);
+
+            if(vardecl->flags&Parameter::static_flag)
+            {
+              auto  ptr = parent->make_static_object(mem,std::string(vardecl->identifier));
+
+//              mem[ptr].reset(expr);
+            }
         }
 
       else
@@ -304,85 +338,6 @@ read_function_declaration(const mkf::Node&  base, Memory&  mem, int  depth)
   auto  ptr = parent->make_static_object(mem,std::move(id));
 
   mem[ptr].reset(fn);
-}
-
-
-
-
-void
-Statement::
-read_var_declaration(const mkf::Node&  base, Memory&  mem, int  depth)
-{
-  const bool  global_flag = !depth;
-        bool  static_flag = global_flag;
-
-  std::string  id;
-
-  int  flags = 0;
-
-  Pointer  ptr;
-
-  mkf::Cursor  cur(base);
-
-    while(!cur.test_ended())
-    {	
-      auto&  nd = cur.get();
-
-        if(nd == "identifier")
-        {
-          nd.collect_characters(id);
-
-          reset(new VarDecl(std::string(id),flags));
-
-            if(static_flag)
-            {
-              ptr = parent->make_static_object(mem,std::string(id));
-            }
-        }
-
-      else
-        if(nd == "const")
-        {
-          flags |= Parameter::const_flag;
-        }
-
-      else
-        if(nd == "static")
-        {
-          static_flag = true;
-        }
-
-      else
-        if(nd == "&")
-        {
-          flags |= Parameter::reference_flag;
-        }
-
-      else
-        if(nd == "expression")
-        {
-            if(static_flag)
-            {
-              auto  expr = new expression::Node;
-
-              expr->read(nd);
-
-              mem[ptr].reset(expr);
-            }
-
-          else
-            {
-              expression::Node  expr;
-
-              expr.read(nd);
-
-              data.vardecl->initializer = std::move(expr);
-            }
-        }
-
-
-      cur.advance();
-    }
 }
 
 

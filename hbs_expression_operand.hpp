@@ -54,7 +54,7 @@ Operand
   Operand(std::string*  str);
   Operand(Value*        val);
   Operand(const Operand&   rhs);
-  Operand(      Operand&&  rhs);
+  Operand(      Operand&&  rhs) noexcept;
  ~Operand();
 
 

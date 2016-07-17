@@ -31,10 +31,13 @@ main(int  argc, char**  argv)
 
   mkf::ParseContext  ctx(book);
 
+report;
   auto  root = ctx(txt);
+report;
 
     if(root)
     {
+report;
       root->print();
 
       globblk.read(*root,mem,0);

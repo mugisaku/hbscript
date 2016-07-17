@@ -22,7 +22,7 @@ Node
    Node(const Element&   el);
    Node(      Element&&  el);
    Node(const Node&   rhs);
-   Node(      Node&&  rhs);
+   Node(      Node&&  rhs) noexcept;
   ~Node();
 
 

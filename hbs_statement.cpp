@@ -2,6 +2,8 @@
 #include"hbs_block.hpp"
 #include"hbs_conditionalblock.hpp"
 #include"hbs_ifstatement.hpp"
+#include"hbs_forstatement.hpp"
+#include"hbs_vardecl.hpp"
 
 
 
@@ -15,15 +17,7 @@ kind(StatementKind::null)
 
 
 Statement::
-Statement(const Statement&  rhs):
-kind(StatementKind::null)
-{
-  *this = rhs;
-}
-
-
-Statement::
-Statement(Statement&&  rhs):
+Statement(Statement&&  rhs) noexcept:
 kind(StatementKind::null)
 {
   *this = std::move(rhs);
@@ -37,47 +31,6 @@ Statement::
 }
 
 
-
-
-Statement&
-Statement::
-operator=(const Statement&  rhs)
-{
-  clear();
-
-  parent = rhs.parent;
-
-  kind = rhs.kind;
-
-    switch(kind)
-    {
-      case(StatementKind::null):
-        break;
-      case(StatementKind::return_):
-      case(StatementKind::expression):
-      case(StatementKind::debug):
-        data.expr = new expression::Node(*rhs.data.expr);
-        break;
-      case(StatementKind::vardecl):
-        data.vardecl = new VarDecl(*rhs.data.vardecl);
-        break;
-      case(StatementKind::break_):
-      case(StatementKind::continue_):
-        data.id = new std::string(*rhs.data.id);
-        break;
-      case(StatementKind::ifstmt):
-        data.ifstmt = new IfStatement(*rhs.data.ifstmt);
-        break;
-      case(StatementKind::whilestmt):
-        data.condblk = new ConditionalBlock(*rhs.data.condblk);
-        break;
-      default:
-        report;
-    }
-
-
-  return *this;
-}
 
 
 Statement&
@@ -114,11 +67,15 @@ clear()
         break;
       case(StatementKind::return_):
       case(StatementKind::expression):
+      case(StatementKind::hidden_expression):
       case(StatementKind::debug):
         delete data.expr;
         break;
       case(StatementKind::vardecl):
         delete data.vardecl;
+        break;
+      case(StatementKind::block):
+        delete data.blk;
         break;
       case(StatementKind::break_):
       case(StatementKind::continue_):
@@ -126,6 +83,9 @@ clear()
         break;
       case(StatementKind::ifstmt):
         delete data.ifstmt;
+        break;
+      case(StatementKind::forstmt):
+        delete data.forstmt;
         break;
       case(StatementKind::whilestmt):
         delete data.condblk;
@@ -148,15 +108,11 @@ print(const Memory&  mem) const
       case(StatementKind::null):
         printf("(null)");
         break;
+      case(StatementKind::block):
+        data.blk->print(mem);
+        break;
       case(StatementKind::vardecl):
-        printf("var  %s",data.vardecl->identifier.data());
-
-          if(data.vardecl->initializer)
-          {
-            printf(" = ");
-
-            data.vardecl->initializer.print(mem);
-          }
+        data.vardecl->print(mem);
         break;
       case(StatementKind::debug):
         printf("debug");
@@ -175,8 +131,13 @@ print(const Memory&  mem) const
       case(StatementKind::expression):
         data.expr->print(mem);
         break;
+      case(StatementKind::hidden_expression):
+        break;
       case(StatementKind::ifstmt):
         data.ifstmt->print(mem);
+        break;
+      case(StatementKind::forstmt):
+        data.forstmt->print(mem);
         break;
       case(StatementKind::whilestmt):
         printf("while");

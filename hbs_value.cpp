@@ -18,8 +18,8 @@ Value::Value(std::string*       s_): kind(ValueKind::null){reset(s_);}
 Value::Value(Function*          fn): kind(ValueKind::null){reset(fn);}
 Value::Value(const Pointer&    ptr): kind(ValueKind::null){reset(ptr);}
 Value::Value(const Reference&  ref): kind(ValueKind::null){reset(ref);}
-Value::Value(const Value&   rhs): kind(ValueKind::null){*this =          (rhs);}
-Value::Value(      Value&&  rhs): kind(ValueKind::null){*this = std::move(rhs);}
+Value::Value(const Value&   rhs)         : kind(ValueKind::null){*this =          (rhs);}
+Value::Value(      Value&&  rhs) noexcept: kind(ValueKind::null){*this = std::move(rhs);}
 
 
 Value::
@@ -51,7 +51,7 @@ operator=(const Value&   rhs)
         data.s = new std::string(*rhs.data.s);
         break;
       case(ValueKind::function):
-        data.fn = new Function(*rhs.data.fn);
+//        data.fn = new Function(*rhs.data.fn);
         break;
       case(ValueKind::array):
         break;

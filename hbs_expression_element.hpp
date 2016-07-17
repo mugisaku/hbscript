@@ -86,7 +86,7 @@ Element
   Element(UnaryOperator  unop);
   Element(BinaryOperator  binop, bool  assign=false);
   Element(const Element&   rhs);
-  Element(      Element&&  rhs);
+  Element(      Element&&  rhs) noexcept;
  ~Element();
 
 

@@ -19,6 +19,7 @@ struct ConditionalBlock;
 struct LabeledBlock;
 struct IfStatement;
 struct ForStatement;
+struct VarDecl;
 
 
 enum class
@@ -30,6 +31,7 @@ StatementKind
 
   block,
   expression,
+  hidden_expression,
   vardecl,
   break_,
   continue_,
@@ -73,18 +75,6 @@ Break
 
 
 struct
-VarDecl: public Parameter
-{
-  expression::Node  initializer;
-
-  VarDecl(std::string&&  id, int  flags_):
-  Parameter(std::move(id),flags_)
-  {}
-
-};
-
-
-struct
 Statement
 {
   Block*  parent;
@@ -98,27 +88,29 @@ Statement
     ConditionalBlock*  condblk;
     expression::Node*     expr;
     IfStatement*        ifstmt;
+    ForStatement*      forstmt;
 
   } data;
 
 
    Statement(Block*  parent_=nullptr);
-   Statement(const Statement&   rhs);
-   Statement(      Statement&&  rhs);
+   Statement(const Statement&)=delete;
+   Statement(      Statement&&  rhs) noexcept;
   ~Statement();
 
 
-  Statement&  operator=(const Statement&   rhs);
-  Statement&  operator=(      Statement&&  rhs);
+  Statement&  operator=(Statement&&  rhs);
 
   operator bool() const;
 
   void  clear();
 
-  void  reset(expression::Node*  expr);
+  void  reset(expression::Node*  expr, bool  hidden=false);
+  void  reset(Block*  blk);
   void  reset(VarDecl*  vardecl);
   void  reset(const Debug&  dbg);
   void  reset(IfStatement*  ifstmt);
+  void  reset(ForStatement*  forstmt);
   void  reset(ConditionalBlock*  condblk);
   void  reset(const Break&     brk);
   void  reset(const Continue&  con);
@@ -138,7 +130,6 @@ Statement
   void      read_enum_declaration(const mkf::Node&  base);
   void  read_function_declaration(const mkf::Node&  base, Memory&  mem, int  depth);
 
-  void  read_var_declaration(const mkf::Node&  base, Memory&  mem, int  depth);
 };
 
 

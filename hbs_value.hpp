@@ -93,7 +93,7 @@ Value
   Value(const Pointer&  ptr);
   Value(const Reference&  ref);
   Value(const Value&   rhs);
-  Value(      Value&&  rhs);
+  Value(      Value&&  rhs) noexcept;
  ~Value();
 
 

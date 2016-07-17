@@ -12,14 +12,14 @@ using ParameterList = std::vector<Parameter>;
 
 
 struct
-Function: public Block
+Function: public  Block
 {
   ParameterList  parameters;
 
   bool  reference_sign;
 
-
   Function();
+
 
   void  print(const Memory&  mem) const;
 

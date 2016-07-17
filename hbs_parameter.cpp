@@ -4,6 +4,13 @@
 
 
 Parameter::
+Parameter():
+flags(0)
+{
+}
+
+
+Parameter::
 Parameter(std::string&&  id, int  flags_):
 identifier(std::move(id)),
 flags(flags_)

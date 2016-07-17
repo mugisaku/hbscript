@@ -16,7 +16,7 @@ Element::Element(Operand*  operand): kind(ElementKind::null){reset(operand);}
 Element::Element(UnaryOperator  unop): kind(ElementKind::null){reset(unop);}
 Element::Element(BinaryOperator  binop, bool  assign): kind(ElementKind::null){reset(binop,assign);}
 Element::Element(const Element&   rhs): kind(ElementKind::null){*this =          (rhs);}
-Element::Element(      Element&&  rhs): kind(ElementKind::null){*this = std::move(rhs);}
+Element::Element(      Element&&  rhs) noexcept: kind(ElementKind::null){*this = std::move(rhs);}
 
 
 Element::

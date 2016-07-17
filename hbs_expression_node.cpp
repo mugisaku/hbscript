@@ -35,7 +35,7 @@ right(nullptr)
 
 
 Node::
-Node(Node&&  rhs):
+Node(Node&&  rhs) noexcept:
 left(nullptr),
 right(nullptr)
 {

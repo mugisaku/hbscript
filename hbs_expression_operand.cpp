@@ -18,8 +18,8 @@ Operand::Operand(Calling*  cal): kind(OperandKind::null){reset(cal);}
 Operand::Operand(Node*  nod): kind(OperandKind::null){reset(nod);}
 Operand::Operand(std::string*  str): kind(OperandKind::null){reset(str);}
 Operand::Operand(Value*  val): kind(OperandKind::null){reset(val);}
-Operand::Operand(const Operand&   rhs): kind(OperandKind::null){*this =          (rhs);}
-Operand::Operand(      Operand&&  rhs): kind(OperandKind::null){*this = std::move(rhs);}
+Operand::Operand(const Operand&   rhs)         : kind(OperandKind::null){*this =          (rhs);}
+Operand::Operand(      Operand&&  rhs) noexcept: kind(OperandKind::null){*this = std::move(rhs);}
 
 
 Operand::

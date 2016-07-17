@@ -104,6 +104,8 @@ read(const mkf::Node&  src, Memory&  mem, int  depth)
 {
   mkf::Cursor  cur(src);
 
+  ++depth;
+
     while(!cur.test_ended())
     {
       auto&  nd = cur.get();

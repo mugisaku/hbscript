@@ -1,9 +1,10 @@
 statement =
-                  debug|
                     ";"|
+                  debug|
       control_statement|
   declaration_statement|
-     (expression:[";"]);
+                  block|
+             expression;
 
 
 
@@ -38,17 +39,17 @@ enumerator = identifier:["=":expression];
 
 
 
-break_statement    =    "break":[white_space:identifier]:[";"];
-continue_statement = "continue":[white_space:identifier]:[";"];
+break_statement    =    "break":[white_space:identifier];
+continue_statement = "continue":[white_space:identifier];
 label_statement    = identifier:":":block;
-return_statement   = "return":[expression]:[";"];
+return_statement   = "return":[expression];
 
 
 
 
-for_statement = "for":"(":[var_declaration]:";":[for_condition]:";":[for_step]:")";
+for_statement = "for":"(":[var_declaration]:";":[for_condition]:";":[for_iteration]:")":block;
 for_condition = expression;
-for_step      = expression;
+for_iteration = expression;
 
 
 
@@ -72,7 +73,7 @@ block = "{":{statement}:"}";
 
 
 
-expression = {binary_operand}:unary_operand:[";"];
+expression = {binary_operand}:unary_operand;
 
 binary_operand = unary_operand:binary_operator;
 
@@ -106,7 +107,7 @@ parameter = ["&"]:["const":white_space]:identifier;
 
 
 
-var_declaration = ["static":white_space]:"var":["&"]:white_space:["const":white_space]:identifier:["=":expression]:[";"];
+var_declaration = ["static":white_space]:"var":["&"]:white_space:["const":white_space]:identifier:["=":expression];
 
 
 

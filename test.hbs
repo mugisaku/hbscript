@@ -5,22 +5,20 @@
 function
 main()
 {
-  var  n = 0;
+  var  n = 2800;
+
+  var  p = new {age:20};
 
     for(var  i = 0;  i <= 10;  i += 1)
     {
       n += i;
+
+      p->age += 1;
     }
 
 
-  var  p = {age:"20"};
 
-  p.age = 17;
-  p.age -= 1;
-  p.age -= 1;
-  p.age -= 1;
-
-  return p;
+  return p->age;
 }
 
 

@@ -30,7 +30,7 @@ Element::
 
 Element&
 Element::
-operator=(const Element&   rhs)
+operator=(const Element&  rhs)
 {
   clear();
 
@@ -187,6 +187,7 @@ get_string(BinaryOperator  op, bool  assign)
       case(BinaryOperator::logical_or    ): return"||";
       case(BinaryOperator::logical_and   ): return"&&";
       case(BinaryOperator::memb          ): return".";
+      case(BinaryOperator::membptr       ): return"->";
 
       default:;
     }

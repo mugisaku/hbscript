@@ -161,6 +161,13 @@ get_value(Context&  ctx) const
     switch(kind)
     {
       case(OperandKind::value):
+          if(data.val->kind == ValueKind::expression)
+          {
+report;
+            return data.val->data.expr->get_value(ctx);
+          }
+
+
         return Value(*data.val);
         break;
       case(OperandKind::tree):

@@ -39,6 +39,8 @@ Structure
 
   void  remove_member(const std::string&  id);
 
+  void  initialize(Context&  ctx);
+
   void  print() const;
 
 };

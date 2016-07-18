@@ -52,6 +52,7 @@ BinaryOperator
   gteq,
 
   memb,
+  membptr,
 
 };
 

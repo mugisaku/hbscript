@@ -17,6 +17,7 @@ struct Array;
 struct Structure;
 struct List;
 struct Memory;
+struct Context;
 
 
 namespace expression{
@@ -137,7 +138,7 @@ Value
   Value       invert(Memory&  mem) const;
   Value      bit_not(Memory&  mem) const;
   Value  logical_not(Memory&  mem) const;
-  Value         new_(Memory&  mem) const;
+  Value         new_(Context&  ctx) const;
   Value      delete_(Memory&  mem) const;
 
   Value  operate_add(Memory&  mem, const Value&  rhs) const;
@@ -150,18 +151,6 @@ Value
   Value  operate_bit_xor(Memory&  mem, const Value&  rhs) const;
   Value  operate_shl(Memory&  mem, const Value&  rhs) const;
   Value  operate_shr(Memory&  mem, const Value&  rhs) const;
-
-  Value  operate_add_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_sub_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_mul_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_div_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_rem_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_bit_or_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_bit_and_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_bit_xor_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_shl_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_shr_assign(Memory&  mem, const Value&  rhs);
-  Value  operate_assign(Memory&  mem, const Value&  rhs);
 
   Value  operate_eq(Memory&  mem, const Value&  rhs) const;
   Value  operate_neq(Memory&  mem, const Value&  rhs) const;

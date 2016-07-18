@@ -37,6 +37,7 @@ read_binary_operator(const mkf::Node&  base)
       else if(nd == "&&"){return Element(BinaryOperator::logical_and);}
       else if(nd == "||"){return Element(BinaryOperator::logical_or);}
       else if(nd == "." ){return Element(BinaryOperator::memb);}
+      else if(nd == "->" ){return Element(BinaryOperator::membptr);}
       else if(nd == "=" ){return Element(BinaryOperator::nop,true);}
       else if(nd == "+="){return Element(BinaryOperator::add,true);}
       else if(nd == "-="){return Element(BinaryOperator::sub,true);}

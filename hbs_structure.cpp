@@ -1,5 +1,6 @@
 #include"hbs_structure.hpp"
 #include"hbs_memory.hpp"
+#include"hbs_context.hpp"
 
 
 
@@ -38,7 +39,12 @@ get_member(const std::string&  id)
 
   member_list.emplace_back(std::string(id),memory.allocate());
 
-  return member_list.back();
+
+  auto&  memb = member_list.back();
+
+  memory[memb.pointer] = Value(0);
+
+  return memb;
 }
 
 
@@ -53,6 +59,24 @@ remove_member(const std::string&  id)
           memory.free(memb.pointer);
 
           break;
+        }
+    }
+}
+
+
+void
+Structure::
+initialize(Context&  ctx)
+{
+    for(auto&  memb: member_list)
+    {
+      auto&  v = ctx.get_memory()[memb.pointer];
+
+        if(v.kind == ValueKind::expression)
+        {
+          auto  tv = v.data.expr->get_value(ctx);
+
+          v = std::move(tv);
         }
     }
 }

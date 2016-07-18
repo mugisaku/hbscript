@@ -4,6 +4,7 @@
 #include"hbs_block.hpp"
 #include"hbs_function.hpp"
 #include"hbs_calling.hpp"
+#include"hbs_structure.hpp"
 
 
 
@@ -142,7 +143,33 @@ make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Val
 
       buf.emplace_back(std::string(id),flags,ObjectKind::auto_variable,ptr);
 
-      memory[ptr] = val.dereference(memory);
+        if(val.kind == ValueKind::expression)
+        {
+report;
+          memory[ptr] = val.data.expr->get_value(*this);
+        }
+
+      else
+        if(val.kind == ValueKind::structure)
+        {
+          val.data.st->initialize(*this);
+
+          memory[ptr] = val;
+        }
+
+      else
+        if(val.kind == ValueKind::pointer)
+        {
+          auto&  dst = memory[val.data.i];
+
+          memory[ptr] = val;
+         
+        }
+
+      else
+        {
+          memory[ptr] = val;
+        }
     }
 }
 

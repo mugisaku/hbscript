@@ -3,6 +3,7 @@
 #include"hbs_function.hpp"
 #include"hbs_structure.hpp"
 #include"hbs_memory.hpp"
+#include"hbs_context.hpp"
 
 
 
@@ -156,7 +157,8 @@ print(const Memory&  mem) const
         printf("undefined");
         break;
       case(ValueKind::reference):
-        printf("REF(%d)",data.i);
+        printf("REF(%d)->",data.i);
+        mem[data.i].print(mem);
         break;
       case(ValueKind::integer):
         printf("INT(%d)",data.i);
@@ -178,9 +180,11 @@ print(const Memory&  mem) const
         data.st->print();
         break;
       case(ValueKind::expression):
+        printf("expr ");
         data.expr->print(mem);
         break;
       default:;
+        report;
     }
 }
 

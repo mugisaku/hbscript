@@ -73,6 +73,7 @@ OBJ +=                         \
   hbs_context.o                \
   hbs_context__enter.o         \
   hbs_expression_node.o        \
+  hbs_expression_node__value.o  \
   hbs_expression_node__make.o  \
   hbs_expression_node__read.o  \
   hbs_expression_operand.o     \

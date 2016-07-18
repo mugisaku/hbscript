@@ -1,5 +1,7 @@
 #include"hbs_value.hpp"
 #include"hbs_memory.hpp"
+#include"hbs_context.hpp"
+#include"hbs_structure.hpp"
 
 
 
@@ -98,11 +100,21 @@ logical_not(Memory&  mem) const
 
 Value
 Value::
-new_(Memory&  mem) const
+new_(Context&  ctx) const
 {
+  auto&  mem = ctx.get_memory();
+
   auto&  v = dereference(mem);
 
   auto  ptr = mem.allocate();
+
+    switch(v.kind)
+    {
+      case(ValueKind::structure):
+        v.data.st->initialize(ctx);
+        break;
+    }
+
 
   mem[ptr] = v;
 

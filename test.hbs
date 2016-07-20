@@ -3,22 +3,24 @@
 
 
 function
+xorshift32(&y)
+{
+  y = y ^ (y << 13);
+  y = y ^ (y >> 17);
+
+  return y = y ^ (y << 5);
+}
+
+
+function
 main()
 {
-  var  n = 2800;
+  var  seed = 123456789;
 
-  var  p = new {age:20};
-
-    for(var  i = 0;  i <= 10;  i += 1)
+    for(var  i = 0;  i <= 80;  i += 1)
     {
-      n += i;
-
-      p->age += 1;
+      debug(xorshift32(seed));
     }
-
-
-
-  return p->age;
 }
 
 

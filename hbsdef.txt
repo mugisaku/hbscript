@@ -1,4 +1,6 @@
 statement =
+          range_comment|
+           line_comment|
                     ";"|
                   debug|
       control_statement|
@@ -28,6 +30,10 @@ control_statement =
        for_statement;
 
 
+
+
+range_comment = "/*":{(CTYPE_alnum|CTYPE_punct)-"*/"}:"*/";
+line_comment  = "//":{(CTYPE_alnum|CTYPE_punct)-"\n"}:"\n";
 
 
 debug = "debug":"(":expression:")";

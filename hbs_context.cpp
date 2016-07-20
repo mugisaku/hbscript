@@ -72,7 +72,7 @@ Value
 Context::
 call(const Function&  fn, const Calling&  cal)
 {
-//  const Pointer  src_ptr = base_pointer;
+  const Pointer  src_ptr = base_pointer;
 
     if(fn.parameters.size() != cal.arguments.size())
     {
@@ -145,7 +145,6 @@ make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Val
 
         if(val.kind == ValueKind::expression)
         {
-report;
           memory[ptr] = val.data.expr->get_value(*this);
         }
 
@@ -155,15 +154,6 @@ report;
           val.data.st->initialize(*this);
 
           memory[ptr] = val;
-        }
-
-      else
-        if(val.kind == ValueKind::pointer)
-        {
-          auto&  dst = memory[val.data.i];
-
-          memory[ptr] = val;
-         
         }
 
       else

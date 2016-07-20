@@ -10,6 +10,16 @@
 
 
 int
+xorshift32(int&  y)
+{
+  y = y ^ (y << 13);
+  y = y ^ (y >> 17);
+
+  return y = y ^ (y << 5);
+}
+
+
+int
 main(int  argc, char**  argv)
 {
   Memory  mem(800);
@@ -27,17 +37,14 @@ main(int  argc, char**  argv)
     }
 
 
-//  book.print();
+  book.print();
 
   mkf::ParseContext  ctx(book);
 
-report;
   auto  root = ctx(txt);
-report;
 
     if(root)
     {
-report;
       root->print();
 
       globblk.read(*root,mem,0);
@@ -60,6 +67,14 @@ report;
 
           printf("\n");
         }
+    }
+
+
+  int  seed = 123456789;
+
+    for(int  i = 0;  i <= 80;  i += 1)
+    {
+      printf("%d\n",xorshift32(seed));
     }
 
 

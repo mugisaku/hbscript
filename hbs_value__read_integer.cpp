@@ -12,7 +12,7 @@ read_decimal_literal(const mkf::Node&  base)
 
   base.collect_characters(s);
 
-  return std::stoi(s,nullptr,10);
+  return static_cast<int>(std::stoul(s,nullptr,10));
 }
 
 

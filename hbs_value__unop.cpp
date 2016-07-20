@@ -8,44 +8,6 @@
 
 Value
 Value::
-indirect(Memory&  mem) const
-{
-  auto&  v = dereference(mem);
-
-    switch(v.kind)
-    {
-      case(ValueKind::pointer):
-      case(ValueKind::integer):
-        return Value(Reference(Pointer(v.get_integer())));
-      default:;
-    }
-
-
-  printf("整数値でもポインタ値でもない値は、脱参照できません\n");
-
-  return Value(ValueKind::undefined);
-}
-
-
-Value
-Value::
-get_address(Memory&  mem) const
-{
-    if(kind == ValueKind::reference)
-    {
-      return Value(Pointer(data.i));
-    }
-
-
-
-  printf("参照型でない値のアドレスは取得できません\n");
-
-  return Value(ValueKind::undefined);
-}
-
-
-Value
-Value::
 invert(Memory&  mem) const
 {
   auto&  v = dereference(mem);
@@ -85,7 +47,6 @@ logical_not(Memory&  mem) const
     switch(v.kind)
     {
       case(ValueKind::integer):
-      case(ValueKind::pointer):
       case(ValueKind::boolean):
         return Value(!v.get_integer());
         break;
@@ -118,7 +79,7 @@ new_(Context&  ctx) const
 
   mem[ptr] = v;
 
-  return Value(ptr);
+  return Value(Reference(ptr));
 }
 
 
@@ -126,15 +87,9 @@ Value
 Value::
 delete_(Memory&  mem) const
 {
-  auto&  v = dereference(mem);
-
-    switch(v.kind)
+    if(kind == ValueKind::reference)
     {
-      case(ValueKind::integer):
-      case(ValueKind::pointer):
-        mem.free(v.data.i);
-        break;
-      default:;
+      mem.free(data.i);
     }
 
 

@@ -145,8 +145,6 @@ get_string(UnaryOperator  op)
 {
     switch(op)
     {
-      case(UnaryOperator::indir      ): return"*";
-      case(UnaryOperator::addr       ): return"&";
       case(UnaryOperator::logical_not): return"!";
       case(UnaryOperator::bit_not    ): return"~";
       case(UnaryOperator::invrt      ): return"-";
@@ -187,7 +185,6 @@ get_string(BinaryOperator  op, bool  assign)
       case(BinaryOperator::logical_or    ): return"||";
       case(BinaryOperator::logical_and   ): return"&&";
       case(BinaryOperator::memb          ): return".";
-      case(BinaryOperator::membptr       ): return"->";
 
       default:;
     }

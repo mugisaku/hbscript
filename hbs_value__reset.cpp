@@ -88,18 +88,6 @@ reset(Structure*  st)
 
 void
 Value::
-reset(const Pointer&  ptr)
-{
-  clear();
-
-  kind = ValueKind::pointer;
-
-  data.i = ptr;
-}
-
-
-void
-Value::
 reset(const Reference&  ref)
 {
   clear();

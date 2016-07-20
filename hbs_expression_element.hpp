@@ -52,7 +52,6 @@ BinaryOperator
   gteq,
 
   memb,
-  membptr,
 
 };
 
@@ -64,8 +63,6 @@ UnaryOperator
   invrt,
   bit_not,
   logical_not,
-  indir,
-  addr,
   new_,
   delete_,
 

@@ -64,7 +64,6 @@ ValueKind
   undefined,
   reference,
   
-  pointer,
   integer,
   boolean,
   string,
@@ -97,7 +96,6 @@ Value
   Value(std::string*  s_);
   Value(Function*  fn);
   Value(expression::Node*  expr);
-  Value(const Pointer&  ptr);
   Value(const Reference&  ref);
   Value(const Value&   rhs);
   Value(      Value&&  rhs) noexcept;
@@ -117,7 +115,6 @@ Value
   void  reset(Function*  fn);
   void  reset(Structure*  st);
   void  reset(expression::Node*  expr);
-  void  reset(const Pointer&  ptr);
   void  reset(const Reference&  ref);
 
         Value&  dereference(Memory&  mem)      ;
@@ -133,8 +130,6 @@ Value
   void  read_character_literal(const mkf::Node&  src);
 
 
-  Value     indirect(Memory&  mem) const;
-  Value  get_address(Memory&  mem) const;
   Value       invert(Memory&  mem) const;
   Value      bit_not(Memory&  mem) const;
   Value  logical_not(Memory&  mem) const;

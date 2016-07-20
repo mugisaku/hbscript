@@ -19,7 +19,6 @@ Value::Value(bool                b): kind(ValueKind::null){reset(b);}
 Value::Value(std::string*       s_): kind(ValueKind::null){reset(s_);}
 Value::Value(Function*          fn): kind(ValueKind::null){reset(fn);}
 Value::Value(expression::Node*  expr): kind(ValueKind::null){reset(expr);}
-Value::Value(const Pointer&    ptr): kind(ValueKind::null){reset(ptr);}
 Value::Value(const Reference&  ref): kind(ValueKind::null){reset(ref);}
 Value::Value(const Value&   rhs)         : kind(ValueKind::null){*this =          (rhs);}
 Value::Value(      Value&&  rhs) noexcept: kind(ValueKind::null){*this = std::move(rhs);}
@@ -45,7 +44,6 @@ operator=(const Value&   rhs)
     switch(kind)
     {
       case(ValueKind::integer):
-      case(ValueKind::pointer):
       case(ValueKind::boolean):
       case(ValueKind::reference):
         data.i = rhs.data.i;
@@ -96,7 +94,6 @@ clear()
     switch(kind)
     {
       case(ValueKind::integer):
-      case(ValueKind::pointer):
       case(ValueKind::boolean):
       case(ValueKind::reference):
       case(ValueKind::array):
@@ -162,9 +159,6 @@ print(const Memory&  mem) const
         break;
       case(ValueKind::integer):
         printf("INT(%d)",data.i);
-        break;
-      case(ValueKind::pointer):
-        printf("PTR(%d)",data.i);
         break;
       case(ValueKind::boolean):
         printf("%s",data.i? "true":"false");

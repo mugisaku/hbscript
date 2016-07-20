@@ -12,8 +12,7 @@
 Context::
 Context(Memory&  mem, Block&  gblk):
 memory(mem),
-global_block(gblk),
-base_pointer(mem.get_size()-1)
+global_block(gblk)
 {
 }
 
@@ -61,8 +60,6 @@ release_auto_object(const ObjectList&  objls)
         if(obj.kind == ObjectKind::auto_variable)
         {
           memory[obj.value].clear();
-
-          ++base_pointer.value;
         }
     }
 }
@@ -72,8 +69,6 @@ Value
 Context::
 call(const Function&  fn, const Calling&  cal)
 {
-  const Pointer  src_ptr = base_pointer;
-
     if(fn.parameters.size() != cal.arguments.size())
     {
       report;
@@ -113,8 +108,6 @@ call(const Function&  fn, const Calling&  cal)
 
   functionframe_list.pop_back();
 
-//  printf("onstart    %8d\n",src_ptr.value);
-//  printf("onfinished %8d\n",base_pointer.value);
 
   return std::move(retval);
 }
@@ -137,9 +130,7 @@ make_auto_object(ObjectList&  buf, const std::string&  id, int  flags, const Val
 
   else
     {
-      Pointer  ptr(base_pointer);
-
-      --base_pointer.value;
+      Pointer  ptr = memory.allocate();
 
       buf.emplace_back(std::string(id),flags,ObjectKind::auto_variable,ptr);
 

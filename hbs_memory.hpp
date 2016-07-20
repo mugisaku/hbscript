@@ -11,11 +11,10 @@
 class
 Memory
 {
-  size_t  size;
-
   Value*  table;
 
-  size_t  allocate_size;
+  size_t      table_size;
+  size_t  allocated_size;
 
   std::vector<Pointer>  freed_pointer_list;
 
@@ -30,7 +29,7 @@ public:
 
   size_t  get_size() const;
 
-  Value&  derefer(Pointer  ptr) const;
+  Value&  get_value(Pointer  ptr) const;
 
   Value&  operator[](Pointer  ptr) const;
 

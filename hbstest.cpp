@@ -65,14 +65,14 @@ main(int  argc, char**  argv)
 
           retval.print(mem);
 
-          printf("\n");
+          printf(" is returned\n");
         }
     }
 
 
   int  seed = 123456789;
 
-    for(int  i = 0;  i <= 80;  i += 1)
+    for(int  i = 0;  i < 10;  i += 1)
     {
       printf("%d\n",xorshift32(seed));
     }

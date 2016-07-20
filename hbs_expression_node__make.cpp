@@ -16,8 +16,6 @@ get_priority(const Element&  el)
       case(ElementKind::unary_operator):
           switch(el.data.unop)
           {
-            case(UnaryOperator::indir      ):
-            case(UnaryOperator::addr       ):
             case(UnaryOperator::logical_not):
             case(UnaryOperator::bit_not    ):
             case(UnaryOperator::invrt      ):
@@ -28,8 +26,7 @@ get_priority(const Element&  el)
       case(ElementKind::binary_operator):
           switch(el.data.binop)
           {
-            case(BinaryOperator::memb   ):
-            case(BinaryOperator::membptr): return 0x90;
+            case(BinaryOperator::memb): return 0x90;
 
             case(BinaryOperator::mul        ):
             case(BinaryOperator::div        ):

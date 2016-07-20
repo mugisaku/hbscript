@@ -17,10 +17,17 @@ main()
 {
   var  seed = 123456789;
 
-    for(var  i = 0;  i <= 80;  i += 1)
+  var  s = {count:256};
+
+    for(var  i = 0;  i < 10;  i += 1)
     {
+      s.count -= 1;
+
       debug(xorshift32(seed));
     }
+
+
+  return s.count;
 }
 
 

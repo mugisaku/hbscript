@@ -37,7 +37,6 @@ read_binary_operator(const mkf::Node&  base)
       else if(nd == "&&"){return Element(BinaryOperator::logical_and);}
       else if(nd == "||"){return Element(BinaryOperator::logical_or);}
       else if(nd == "." ){return Element(BinaryOperator::memb);}
-      else if(nd == "->" ){return Element(BinaryOperator::membptr);}
       else if(nd == "=" ){return Element(BinaryOperator::nop,true);}
       else if(nd == "+="){return Element(BinaryOperator::add,true);}
       else if(nd == "-="){return Element(BinaryOperator::sub,true);}
@@ -69,9 +68,7 @@ read_unary_operator(const mkf::Node&  base)
 
            if(nd == "~"        ){return UnaryOperator::bit_not    ;}
       else if(nd == "-"        ){return UnaryOperator::invrt      ;}
-      else if(nd == "*"        ){return UnaryOperator::indir      ;}
       else if(nd == "!"        ){return UnaryOperator::logical_not;}
-      else if(nd == "&"        ){return UnaryOperator::addr       ;}
       else if(nd == "new"      ){return UnaryOperator::new_       ;}
       else if(nd == "delete"   ){return UnaryOperator::delete_    ;}
 

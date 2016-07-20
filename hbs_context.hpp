@@ -15,8 +15,6 @@ Context
 
   std::list<FunctionFrame>  functionframe_list;
 
-  Pointer  base_pointer;
-
   enum class LeaveStatus{
     returned,
     ended,

@@ -21,9 +21,11 @@ read_struct_member(const mkf::Node&  base, Memory&  mem, Structure&  st)
 
         if(nd == "identifier")
         {
-          id.clear();
+          minpp::String  s;
 
-          nd.collect_characters(id);
+          nd.collect_characters(s);
+
+          id = s.to_stdstring();
         }
 
       else

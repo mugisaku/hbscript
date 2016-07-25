@@ -1,6 +1,4 @@
 statement =
-          range_comment|
-           line_comment|
                     ";"|
                   debug|
       control_statement|
@@ -30,10 +28,6 @@ control_statement =
        for_statement;
 
 
-
-
-range_comment = "/*":{(CTYPE_alnum|CTYPE_punct)-"*/"}:"*/";
-line_comment  = "//":{(CTYPE_alnum|CTYPE_punct)-"\n"}:"\n";
 
 
 debug = "debug":"(":expression:")";
@@ -199,7 +193,7 @@ character_literal = "\'": string_element :"\'";
 
 string_element =
                          " "|
-                  CTYPE_utf8|
+               CTYPE_unicode|
               null_character|
            newline_character|
          backslash_character|
@@ -211,7 +205,7 @@ string_element =
 normal_character =
           " "|
   CTYPE_alnum|
-   CTYPE_utf8|
+CTYPE_unicode|
           "!"|
           "#"|
           "$"|

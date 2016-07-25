@@ -31,7 +31,11 @@ read(const mkf::Node&  base, Memory&  mem)
 
         if(nd == "identifier")
         {
-          nd.collect_characters(identifier);
+          minpp::String  s;
+
+          nd.collect_characters(s);
+
+          identifier = s.to_stdstring();
         }
 
       else

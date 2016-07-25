@@ -276,11 +276,11 @@ read(const mkf::Node&  base, Memory&  mem)
 
         if(nd == "identifier")
         {
-          auto  s = new std::string;
+          minpp::String  s;
 
-          nd.collect_characters(*s);
+          nd.collect_characters(s);
 
-          reset(s);
+          reset(new std::string(s.to_stdstring()));
         }
 
       else
@@ -296,11 +296,11 @@ read(const mkf::Node&  base, Memory&  mem)
       else
         if(nd == "string_literal")
         {
-          auto  s = new std::string;
+          minpp::String  s;
 
-          nd.collect_characters(*s);
+          nd.collect_characters(s);
 
-          reset(new Value(s));
+          reset(new Value(new std::string(s.to_stdstring())));
         }
 
       else

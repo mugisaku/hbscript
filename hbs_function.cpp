@@ -109,11 +109,11 @@ read_parameter(const mkf::Node&  src)
       else
         if(nd == "identifier")
         {
-          std::string  s;
+          minpp::String  s;
 
           nd.collect_characters(s);
 
-          parameters.emplace_back(std::move(s),flags);
+          parameters.emplace_back(s.to_stdstring(),flags);
         }
 
 

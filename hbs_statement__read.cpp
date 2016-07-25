@@ -178,7 +178,7 @@ read_continue_statement(const mkf::Node&  src)
 {
   mkf::Cursor  cur(src);
 
-  std::string*  id = new std::string;
+  std::string*  id;
 
     while(!cur.test_ended())
     {
@@ -186,7 +186,11 @@ read_continue_statement(const mkf::Node&  src)
 
         if(nd == "identifier")
         {
-          nd.collect_characters(*id);
+          minpp::String  s;
+
+          nd.collect_characters(s);
+
+          id = new std::string(s.to_stdstring());
         }
 
 
@@ -204,7 +208,7 @@ read_break_statement(const mkf::Node&  src)
 {
   mkf::Cursor  cur(src);
 
-  std::string*  id = new std::string;
+  std::string*  id;
 
     while(!cur.test_ended())
     {
@@ -212,7 +216,11 @@ read_break_statement(const mkf::Node&  src)
 
         if(nd == "identifier")
         {
-          nd.collect_characters(*id);
+          minpp::String  s;
+
+          nd.collect_characters(s);
+
+          id = new std::string(s.to_stdstring());
         }
 
 
@@ -321,7 +329,11 @@ read_function_declaration(const mkf::Node&  base, Memory&  mem, int  depth)
 
         if(nd == "identifier")
         {
-          nd.collect_characters(id);
+          minpp::String  s;
+
+          nd.collect_characters(s);
+
+          id = s.to_stdstring();
         }
 
       else
@@ -359,7 +371,11 @@ read_enumerator(const mkf::Node&  base, int  v)
 
         if(nd == "identifier")
         {
-          nd.collect_characters(id);
+          minpp::String  s;
+
+          nd.collect_characters(s);
+
+          id = s.to_stdstring();
         }
 
       else

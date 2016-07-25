@@ -28,10 +28,16 @@ main(int  argc, char**  argv)
 
   mkf::Book  book;
 
-  auto  def = load_file("hbsdef.txt");
-  auto  txt = load_file("test.hbs");
+  minpp::Stream  defs;
+  minpp::Stream  txts;
 
-    if(!book.make(def))
+  defs.reset(minpp::FilePath("hbsdef.txt"));
+  txts.reset(minpp::FilePath("test.hbs"  ));
+
+  minpp::String  defstr(defs);
+  minpp::String  txtstr(txts);
+
+    if(!book.make(defstr))
     {
       return -1;
     }
@@ -41,7 +47,7 @@ main(int  argc, char**  argv)
 
   mkf::ParseContext  ctx(book);
 
-  auto  root = ctx(txt);
+  auto  root = ctx(txtstr);
 
     if(root)
     {

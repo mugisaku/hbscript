@@ -93,11 +93,13 @@ all: $(BIN)
 
 clean:
 	make -C libmkf clean
+	make -C libminpp clean
 	rm -f $(OBJ) $(BIN) hbstest.o
 
 
 objects:
 	make -C libmkf objects
+	make -C libminpp objects
 
 
 archive: clean
@@ -105,7 +107,7 @@ archive: clean
 
 
 $(BIN): $(OBJ) objects hbstest.o
-	$(CXX) -o $@ *.o libmkf/*.o $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) -o $@ *.o libmkf/*.o libminpp/*.o $(CXXFLAGS) $(LDFLAGS)
 ifeq ($(opt),1)
 	$(STRIP) --strip-unneeded  $(BIN)
 endif

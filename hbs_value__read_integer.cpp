@@ -8,22 +8,22 @@ namespace{
 int
 read_decimal_literal(const mkf::Node&  base)
 {
-  std::string  s;
+  minpp::String  s;
 
   base.collect_characters(s);
 
-  return static_cast<int>(std::stoul(s,nullptr,10));
+  return static_cast<int>(std::stoul(s.to_stdstring(),nullptr,10));
 }
 
 
 int
 read_hex_literal(const mkf::Node&  base)
 {
-  std::string  s;
+  minpp::String  s;
 
   base.collect_characters(s);
 
-  return std::stoi(s,nullptr,16);
+  return std::stoi(s.to_stdstring(),nullptr,16);
 }
 
 
@@ -40,8 +40,8 @@ read_binary_literal(const mkf::Node&  base)
 
         if(nd == "zero_or_one")
         {
-          i <<=                          1;
-          i  |= (nd.character == '1')? 1:0;
+          i <<=                                  1;
+          i  |= (nd.character.unicode == '1')? 1:0;
         }
 
 

@@ -19,7 +19,7 @@ read_character(const mkf::Node&  base)
       else if(nd == "backslash_character"   ){return '\\';}
       else if(nd == "single_quote_character"){return '\'';}
       else if(nd == "double_quote_character"){return '\"';}
-      else if(nd == "normal_character"      ){return nd.character;}
+      else if(nd == "normal_character"      ){return nd.character.unicode;}
 
 
       cur.advance();
